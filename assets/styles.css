@@ -2251,7 +2251,8 @@ footer {
   background-position: center bottom;
   background-repeat: no-repeat;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  /* Align to bottom to prevent cutoff */
   justify-content: center;
   padding: 60px 20px 0;
   margin-top: -2px;
@@ -2286,11 +2287,12 @@ footer {
   width: 100%;
   max-width: 1000px;
   /* Increased for wider desktop view */
+  padding-bottom: 0;
 }
 
 /* Text Above Owner */
 .footer-hero-text {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .footer-subtitle {
@@ -2331,17 +2333,19 @@ footer {
 /* Owner Centered - Zoomed In */
 .footer-hero-owner-centered {
   margin: 0 auto;
+  line-height: 0;
+  /* Remove inline gap */
 }
 
 .footer-hero-owner-centered img {
   height: 480px;
-  /* Significantly Increased */
+  /* Consistently large */
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
   animation: ownerFloat 4s ease-in-out infinite;
-  margin-bottom: -40px;
-  /* Tuck partially for depth if needed, or keep 0 */
+  margin-bottom: 0;
+  /* Align perfectly to bottom */
 }
 
 /* CTA Button */
@@ -2361,6 +2365,8 @@ footer {
   z-index: 10;
   box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
   transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 40px;
+  /* Lift button up visually but keep spacing */
 }
 
 .footer-cta-btn:hover {
@@ -2384,7 +2390,8 @@ footer {
 /* Ensure shape divider is correctly positioned */
 .custom-shape-divider-bottom-1689947849 {
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
+  /* Overlap to fix gap */
   left: 0;
   width: 100%;
   overflow: hidden;
@@ -2392,6 +2399,13 @@ footer {
   transform: rotate(180deg);
   z-index: 10;
   /* Ensure visible on top */
+}
+
+/* Use specific ID for About margin fix if needed */
+#about {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  /* Let map sit flush if needed */
 }
 
 /* Mobile New Styles */
@@ -2403,9 +2417,12 @@ footer {
   }
 
   .footer-hero {
-    min-height: 450px;
+    min-height: 480px;
+    /* Increase height for zoom */
     background-position: center bottom;
     padding-top: 40px;
+    align-items: flex-end;
+    /* Align bottom */
   }
 
   .footer-hero-text {
@@ -2422,14 +2439,15 @@ footer {
 
   /* Zoom owner on mobile */
   .footer-hero-owner-centered img {
-    height: 300px;
-    /* Increased from 220px */
+    height: 360px;
+    /* Increased from 300px for ZOOM */
   }
 
   .footer-cta-btn {
-    margin-top: -30px;
+    margin-top: -40px;
     padding: 14px 30px;
     font-size: 1.1rem;
+    margin-bottom: 30px;
   }
 }
 
