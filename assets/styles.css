@@ -1997,9 +1997,19 @@ footer {
   .section-footer,
   .footer-zen {
     padding-bottom: 0 !important;
-    padding-top: 40px !important;
+    padding-top: 0 !important;
+    /* Reset padding, let hero handle it */
     background: #0a1628 !important;
-    /* Force Dark Navy Override */
+    /* Solid Dark Navy Base */
+  }
+
+  /* Apply BG Image specifically to the Hero section (behind owner) on Mobile */
+  .footer-hero {
+    background: linear-gradient(0deg, rgba(10, 22, 40, 0.85), rgba(10, 22, 40, 0.85)), url('images/footer_bg_mobile.png') no-repeat center center / cover !important;
+    padding-top: 60px !important;
+    padding-bottom: 40px !important;
+    border-radius: 0 !important;
+    /* Full width look */
   }
 
   .footer-bottom-zen {
@@ -2223,7 +2233,8 @@ footer {
 .call-btn:hover {
   transform: scale(1.02);
 }
-}
+
+/* Closing media query from line 1996 */
 
 /* Closing media query from line 1996 */
 /* Clean Map Container */
@@ -2486,6 +2497,13 @@ footer {
 
   .footer-logo-large span {
     font-size: 1.5rem;
+
+    /* --- GAP FIX: Reduce Map Section Bottom Padding --- */
+    #about,
+    .section.bg-light {
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
   }
 
   /* Zoom owner on mobile */
@@ -3810,18 +3828,23 @@ section[id="how-to"]>*,
     transform: scale(1.1);
   }
 }
+
 /* --- FINAL ZEN MAP FIX (v2.998) --- */
 .map-container-zen {
   width: 100%;
-  height: 550px !important; /* Forces Desktop Size */
+  height: 550px !important;
+  /* Forces Desktop Size */
   min-height: 550px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 4px solid #ffffff; /* Zen Frame */
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); /* Elevated Shadow */
+  border: 4px solid #ffffff;
+  /* Zen Frame */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  /* Elevated Shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  background: #f0f0f0; /* Loader background */
+  background: #f0f0f0;
+  /* Loader background */
 }
 
 /* Force Iframe Fill */
@@ -3841,7 +3864,50 @@ section[id="how-to"]>*,
 /* Mobile Override */
 @media (max-width: 768px) {
   .map-container-zen {
-    height: 400px !important; /* Mobile Zen Size */
+    height: 400px !important;
+    /* Mobile Zen Size */
     min-height: 400px;
   }
+}
+
+/* --- FINAL MOBILE BG FIX (v3.01) --- */
+@media (max-width: 768px) {
+  .footer-hero {
+    /* Force Image Background on Hero ONLY */
+    /* Force Image Background on Hero ONLY (Reduced Overlay to 40%) */
+    background: linear-gradient(0deg, rgba(10, 22, 40, 0.4), rgba(10, 22, 40, 0.4)), url('images/footer_bg_mobile.png') no-repeat center center / cover !important;
+    position: relative !important;
+    z-index: 1 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Ensure children don't hide it */
+  .footer-hero-content,
+  .footer-hero-owner-centered {
+    background: transparent !important;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* KILL THE OVERLAY CAUSING THE ISSUE */
+  .footer-hero::before {
+    display: none !important;
+    background: transparent !important;
+  }
+
+  /* GAP FIX: Ensure valid spacing */
+  .footer-zen,
+  footer {
+    padding-top: 0 !important;
+    margin-top: -2px !important;
+    /* Slight pull to cover any sub-pixel gaps */
+  }
+
+  /* Reset hero top spacing */
+  .footer-hero {
+    margin-top: 0 !important;
+    padding-top: 40px !important;
+    /* Reduced from 60px to bring text up */
+  }
+}
 }
