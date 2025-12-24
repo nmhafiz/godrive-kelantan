@@ -2265,6 +2265,56 @@ footer {
   }
 }
 
+/* Footer Owner Image - Animated */
+.footer-owner-image {
+  position: absolute;
+  right: 5%;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.footer-owner-image img {
+  height: 450px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+  animation: ownerFloat 4s ease-in-out infinite;
+}
+
+@keyframes ownerFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Mobile: Smaller and repositioned */
+@media (max-width: 992px) {
+  .footer-owner-image img {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-owner-image {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .footer-owner-image img {
+    height: 280px;
+  }
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
