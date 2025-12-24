@@ -19,12 +19,12 @@ const translations = {
 
     // Hero
     "hero_title": {
-        bm: "Sampai Airport, Terus Pandu. <br>Kereta Sewa Paling <br><span class=\"typewriter\">Dipercayai</span><br> di Kota Bharu.",
-        en: "Touchdown, Drive Off. <br>The Most <br><span class=\"typewriter\">Trusted</span><br> Car Rental in Kota Bharu."
+        bm: "Sampai Airport, Terus Pandu. <br>Kereta Sewa Paling <br><span class=\"typewriter\">Gedik</span><br> di Kota Bharu.",
+        en: "Touchdown, Drive Off. <br>The Most <br><span class=\"typewriter\">Vibrant</span><br> Car Rental in Kota Bharu."
     },
     "hero_subtitle": {
-        bm: "Tak perlu pening kepala. Kereta bersih, wangi, dan sedia menunggu ketibaan anda di Airport Sultan Ismail Petra. Servis VIP sejak 2005.",
-        en: "Hassle-free. Clean, fragrant cars ready for your arrival at Sultan Ismail Petra Airport. VIP Service since 2005."
+        bm: "Tak perlu pening kepala. Kereta bersih, wangi, dan sedia menunggu ketibaan anda di Airport Sultan Ismail Petra. Servis VIP sejak 2013.",
+        en: "Hassle-free. Clean, fragrant cars ready for your arrival at Sultan Ismail Petra Airport. VIP Service since 2013."
     },
     "cta_check": {
         bm: '<i class="ph ph-whatsapp-logo icon"></i> Semak Kekosongan (Fast Reply)',
@@ -41,8 +41,8 @@ const translations = {
 
     // USP
     "usp_title": {
-        bm: "Kenapa Orang Pilih Go Drive?",
-        en: "Why Choose Go Drive?"
+        bm: "Kenapa Orang Pilih Go Rocket?",
+        en: "Why Choose Go Rocket?"
     },
     "usp_1_title": {
         bm: "Jaminan Wangi & Bersih",
@@ -61,8 +61,8 @@ const translations = {
         en: "We await you at the Airport (KBR) arrival hall. Land and get your keys within 5 minutes."
     },
     "usp_3_title": {
-        bm: "Local Expert (Sejak 2005)",
-        en: "Local Expert (Since 2005)"
+        bm: "Local Expert (Sejak 2013)",
+        en: "Local Expert (Since 2013)"
     },
     "usp_3_desc": {
         bm: "Pilihan rasmi agensi kerajaan & korporat. Kami bantu mudahkan urusan anda di Kelantan.",
@@ -185,12 +185,12 @@ const translations = {
 
     // About
     "about_title": {
-        bm: "Tentang Go Drive Car Rental",
-        en: "About Go Drive Car Rental"
+        bm: "Tentang Go Rocket Car Rental",
+        en: "About Go Rocket Car Rental"
     },
     "about_desc": {
-        bm: "Diuruskan oleh <strong>Encik Nik Irmie</strong>, anak jati Kelantan yang membangunkan servis ini sejak tahun **2005**.",
-        en: "Managed by <strong>Mr. Nik Irmie</strong>, a Kelantan native who has developed this service since **2005**."
+        bm: "Diuruskan oleh <strong>Encik Din</strong>, kebanggaan Kelantan yang membangunkan servis ini sejak tahun **2013**.",
+        en: "Managed by <strong>Encik Din</strong>, a Kelantan native who has developed this service since **2013**."
     },
     "about_phil": {
         bm: "<strong>Falsafah Kami:</strong> \"Tetamu datang bawa rezeki, kita layan bagi selesa.\"",
@@ -237,14 +237,14 @@ const translations = {
 
     // Testimonials
     "testi_title": {
-        bm: "Apa Kata Mereka?",
-        en: "What They Say?"
+        bm: "Dipercayai Ramai",
+        en: "Trusted by Many"
     },
 
     // Footer
     "footer_desc": {
-        bm: "Perkhidmatan kereta sewa premium di Lapangan Terbang Sultan Ismail Petra (KBR) & Kota Bharu sejak 2005. Bersih, wangi & dipercayai.",
-        en: "Premium car rental service at Sultan Ismail Petra Airport (KBR) & Kota Bharu since 2005. Clean, fragrant & trusted."
+        bm: "Perkhidmatan kereta sewa premium di Lapangan Terbang Sultan Ismail Petra (KBR) & Kota Bharu sejak 2013. Bersih, wangi & gedik.",
+        en: "Premium car rental service at Sultan Ismail Petra Airport (KBR) & Kota Bharu since 2013. Clean, fragrant & vibrant."
     },
     "quick_links": {
         bm: "Pautan Pantas",
@@ -255,8 +255,8 @@ const translations = {
         en: '<i class="ph ph-whatsapp-logo"></i> WhatsApp Now'
     },
     "rights_reserved": {
-        bm: "© 2025 Go Drive Car Rental Kelantan. Hak Cipta Terpelihara.",
-        en: "© 2025 Go Drive Car Rental Kelantan. All Rights Reserved."
+        bm: "© 2025 Go Rocket Car Rental Kelantan. Hak Cipta Terpelihara.",
+        en: "© 2025 Go Rocket Car Rental Kelantan. All Rights Reserved."
     },
     "developed_by": {
         bm: "Dibangunkan oleh",
@@ -278,5 +278,53 @@ const translations = {
     "whatsapp_urgent": {
         "bm": "Semak Kekosongan (Slot Terhad!)",
         "en": "Check Availability (Limited Slots!)"
+    },
+    "footer_copyright": {
+        "bm": "© 2025 Go Rocket Car Rental. Hak Cipta Terpelihara.",
+        "en": "© 2025 Go Rocket Car Rental. All Rights Reserved."
+    },
+    "footer_tagline": {
+        "bm": "\"Sampai Airport, Terus Pandu.\" <br>Kami menyediakan pengalaman sewa kereta VVIP yang bersih, wangi, dan pantas sejak 2013.",
+        "en": "\"Land at Airport, Drive Immediately.\" <br>We provide a clean, fresh-scented, and prompt VVIP car rental experience since 2013."
+    },
+    "footer_cs": {
+        "bm": "Sokongan Pelanggan",
+        "en": "Customer Success"
+    },
+    "footer_online": {
+        "bm": "Dalam Talian",
+        "en": "Online"
+    },
+    "footer_links": {
+        "bm": "Pautan Pantas",
+        "en": "Quick Links"
+    },
+    "footer_link_usp": {
+        "bm": "Kelebihan Kami",
+        "en": "Our Advantages"
+    },
+    "footer_link_fleet": {
+        "bm": "Senarai Harga",
+        "en": "Price List"
+    },
+    "footer_link_howto": {
+        "bm": "Cara Tempah",
+        "en": "How to Book"
+    },
+    "footer_link_testi": {
+        "bm": "Testimoni",
+        "en": "Testimonials"
+    },
+    "footer_contact": {
+        "bm": "Hubungi Kami",
+        "en": "Contact Us"
+    },
+    "footer_label_main": {
+        "bm": "Tempahan Utama",
+        "en": "Main Booking"
+    },
+    "footer_label_support": {
+        "bm": "Bantuan 24/7",
+        "en": "24/7 Support"
     }
 };

@@ -1,4 +1,4 @@
-// Go Drive Car Rental - Main Logic
+// Go Rocket Car Rental - Main Logic
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -276,5 +276,181 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn('Translations object not found');
     }
+
+    // --- 9. VVIP Carousel Logic ---
+    const vvipCards = document.querySelectorAll('.vvip-card');
+    const carouselDots = document.querySelectorAll('.carousel-dot');
+    const prevBtn = document.querySelector('.carousel-nav.prev');
+    const nextBtn = document.querySelector('.carousel-nav.next');
+    const carouselContainer = document.querySelector('.vvip-carousel-container');
+
+    if (vvipCards.length > 0) {
+        let currentCarouselIndex = 3; // Start with Lazada (center card) active
+        let autoScrollInterval = null;
+        const AUTO_SCROLL_DELAY = 4000; // 4 seconds
+
+        function updateCarousel(newIndex) {
+            // Wrap around logic
+            if (newIndex < 0) newIndex = vvipCards.length - 1;
+            if (newIndex >= vvipCards.length) newIndex = 0;
+
+            currentCarouselIndex = newIndex;
+
+            // Calculate prev and next indices with wrap
+            const prevIndex = (currentCarouselIndex - 1 + vvipCards.length) % vvipCards.length;
+            const nextIndex = (currentCarouselIndex + 1) % vvipCards.length;
+
+            // Update cards - show only active, prev, and next
+            vvipCards.forEach((card, i) => {
+                card.classList.remove('active', 'prev-card', 'next-card');
+
+                if (i === currentCarouselIndex) {
+                    card.classList.add('active');
+                } else if (i === prevIndex) {
+                    card.classList.add('prev-card');
+                } else if (i === nextIndex) {
+                    card.classList.add('next-card');
+                }
+            });
+
+            // Update dots
+            carouselDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentCarouselIndex);
+            });
+        }
+
+        // Auto-scroll function
+        function startAutoScroll() {
+            stopAutoScroll(); // Clear any existing interval
+            autoScrollInterval = setInterval(() => {
+                updateCarousel(currentCarouselIndex + 1);
+            }, AUTO_SCROLL_DELAY);
+        }
+
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
+
+        // Pause on hover
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', stopAutoScroll);
+            carouselContainer.addEventListener('mouseleave', startAutoScroll);
+        }
+
+        // Navigation button handlers
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                updateCarousel(currentCarouselIndex - 1);
+                startAutoScroll(); // Reset timer after manual navigation
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                updateCarousel(currentCarouselIndex + 1);
+                startAutoScroll(); // Reset timer after manual navigation
+            });
+        }
+
+        // Click on card to navigate
+        vvipCards.forEach((card, i) => {
+            card.addEventListener('click', () => {
+                if (i !== currentCarouselIndex) {
+                    updateCarousel(i);
+                    startAutoScroll(); // Reset timer after manual navigation
+                }
+            });
+        });
+
+        // Dot click handlers
+        carouselDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                updateCarousel(i);
+                startAutoScroll(); // Reset timer after manual navigation
+            });
+        });
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carouselElement = document.querySelector('.vvip-carousel');
+
+        if (carouselElement) {
+            carouselElement.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carouselElement.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe left - next
+                        updateCarousel(currentCarouselIndex + 1);
+                    } else {
+                        // Swipe right - prev
+                        updateCarousel(currentCarouselIndex - 1);
+                    }
+                    startAutoScroll();
+                }
+            }
+        }
+
+        // Start auto-scroll on page load
+        startAutoScroll();
+    }
+
+    // --- 10. Navbar Shrink on Scroll ---
+    const navbar = document.querySelector('.navbar');
+
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+
+    // --- 11. Video Mute/Unmute Toggle ---
+    const muteButtons = document.querySelectorAll('.video-mute-btn');
+
+    muteButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const videoCard = btn.closest('.video-card');
+            const video = videoCard.querySelector('video');
+            const icon = btn.querySelector('i');
+
+            if (video.muted) {
+                // Unmute this video, mute all others
+                document.querySelectorAll('.video-player').forEach(v => {
+                    v.muted = true;
+                });
+                document.querySelectorAll('.video-mute-btn').forEach(b => {
+                    b.classList.remove('unmuted');
+                    b.querySelector('i').className = 'ph ph-speaker-x';
+                });
+
+                video.muted = false;
+                btn.classList.add('unmuted');
+                icon.className = 'ph ph-speaker-high';
+            } else {
+                // Mute this video
+                video.muted = true;
+                btn.classList.remove('unmuted');
+                icon.className = 'ph ph-speaker-x';
+            }
+        });
+    });
 
 });
