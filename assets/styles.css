@@ -2378,8 +2378,22 @@ footer {
   }
 
   .footer-grid-mobile {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .footer-section h4 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  /* Optimize contact list for mobile stack */
+  .footer-content .contact-list li {
+    justify-content: center;
+    text-align: left;
+    max-width: 320px;
+    margin: 0 auto 15px;
   }
 }
 
