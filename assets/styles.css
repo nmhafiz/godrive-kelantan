@@ -1887,14 +1887,14 @@ footer {
   font-size: 0.95rem;
   position: relative;
   text-decoration: none;
-  color: var(--text-dark);
-  /* Ensure visibility */
+  color: var(--secondary-color);
+  /* Ensure visibility against blue header */
   margin-bottom: 0;
   /* consistent check */
 }
 
 .desktop-nav .nav-link:hover {
-  color: var(--primary-color);
+  color: var(--accent-cyan);
 }
 
 .desktop-nav .btn-primary {
