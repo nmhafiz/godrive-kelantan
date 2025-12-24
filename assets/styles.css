@@ -2319,6 +2319,71 @@ footer {
   }
 }
 
+/* Owner Fullbody in Footer Brand Column */
+.owner-fullbody-wrapper {
+  position: relative;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.owner-fullbody-wrapper img {
+  height: 180px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
+  animation: ownerFloat 4s ease-in-out infinite;
+}
+
+.owner-status {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: white;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 768px) {
+  .owner-fullbody-wrapper {
+    text-align: center;
+    width: 100%;
+  }
+
+  .owner-fullbody-wrapper img {
+    height: 150px;
+  }
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
