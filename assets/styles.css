@@ -330,9 +330,14 @@ p {
 }
 
 /* Add padding to clear bottom dividers (Divider height ~100px + 50px buffer) */
-#fleet,
+#fleet {
+  padding-bottom: 150px;
+}
+
 #portfolio {
   padding-bottom: 150px;
+  padding-top: 40px;
+  /* Reduced from 120px to fix gap */
 }
 
 /* USP Section - Standard Padding */
@@ -2397,7 +2402,7 @@ footer {
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  transform: none;
+  transform: rotate(180deg);
   /* Reset rotation */
   z-index: 10;
   /* Ensure visible on top */
