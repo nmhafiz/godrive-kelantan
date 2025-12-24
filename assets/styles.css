@@ -2259,9 +2259,9 @@ footer {
 /* Mobile footer background optimization */
 @media (max-width: 768px) {
   .footer-zen::before {
-    background-size: contain;
-    background-position: center bottom;
-    opacity: 0.35;
+    background-size: cover;
+    background-position: right center;
+    opacity: 0.25;
   }
 }
 
@@ -2303,15 +2303,19 @@ footer {
 
 @media (max-width: 768px) {
   .footer-owner-image {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    text-align: center;
-    margin-bottom: 30px;
+    position: absolute;
+    right: 10px;
+    bottom: 60px;
+    left: auto;
+    top: auto;
+    text-align: right;
+    margin-bottom: 0;
+    z-index: 1;
   }
 
   .footer-owner-image img {
-    height: 280px;
+    height: 200px;
+    opacity: 0.7;
   }
 }
 
