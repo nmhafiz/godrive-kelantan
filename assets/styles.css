@@ -1237,8 +1237,8 @@ footer {
   align-items: flex-end;
   /* Align bottom for cutout */
   justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  /* max-width removed for full width background */
+  width: 100%;
   padding-bottom: 0;
   position: relative;
   z-index: 2;
@@ -2750,6 +2750,8 @@ footer .contact-list .label,
 
 /* Footer Bottom */
 .footer-bottom-zen {
+  background: #0a1628;
+  /* Dark background to cover blue parent */
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding: 25px 0;
   font-size: 0.95rem;
