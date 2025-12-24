@@ -4082,3 +4082,93 @@ section[id="how-to"]>*,
 .nav-menu.active {
   z-index: 1001 !important;
 }
+
+/* =========================================
+   PERFORMANCE OPTIMIZATIONS (v3.16)
+   ========================================= */
+
+/* 1. Disable backdrop-filter on mobile (GPU-intensive) */
+@media (max-width: 768px) {
+
+  .glass,
+  .navbar,
+  .navbar.glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(28, 57, 187, 0.98) !important;
+    /* Solid fallback */
+  }
+
+  .mobile-nav {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.99) !important;
+  }
+
+  .nav-menu {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.99) !important;
+  }
+
+  /* Reduce animation intensity on mobile */
+  .floating-wa,
+  .cta-whatsapp,
+  .btn-primary {
+    animation: none !important;
+  }
+
+  /* Pause marquee on mobile to save CPU */
+  .trust-track,
+  .testimonial-track {
+    animation-play-state: paused !important;
+  }
+
+  /* Re-enable marquee only when in viewport */
+  .trust-bar:hover .trust-track,
+  .testimonial-marquee:hover .testimonial-track {
+    animation-play-state: running !important;
+  }
+}
+
+/* 2. Reduced Motion Support (Accessibility + Performance) */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .trust-track,
+  .testimonial-track {
+    animation: none !important;
+  }
+
+  .floating-wa,
+  .cta-whatsapp,
+  .owner-floating {
+    animation: none !important;
+  }
+}
+
+/* 3. Optimize will-change usage (reset after animation) */
+.scroll-reveal.visible {
+  will-change: auto;
+}
+
+/* 4. GPU compositing hints for smooth scroll */
+.hero-bg,
+.fleet-card,
+.vvip-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

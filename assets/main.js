@@ -439,17 +439,24 @@ document.addEventListener('DOMContentLoaded', () => {
         startAutoScroll();
     }
 
-    // --- 10. Navbar Shrink on Scroll ---
+    // --- 10. Navbar Shrink on Scroll (OPTIMIZED with rAF throttle) ---
     const navbar = document.querySelector('.navbar');
 
     if (navbar) {
+        let navTicking = false;
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+            if (!navTicking) {
+                window.requestAnimationFrame(() => {
+                    if (window.scrollY > 100) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                    navTicking = false;
+                });
+                navTicking = true;
             }
-        });
+        }, { passive: true });
     }
 
     // --- 11. Video Mute/Unmute Toggle ---
