@@ -331,13 +331,12 @@ p {
 
 /* Add padding to clear bottom dividers (Divider height ~100px + 50px buffer) */
 #fleet {
-  padding-bottom: 150px;
+  padding-bottom: 100px;
 }
 
 #portfolio {
   padding-bottom: 150px;
-  padding-top: 40px;
-  /* Reduced from 120px to fix gap */
+  padding-top: 0;
 }
 
 /* USP Section - Standard Padding */
