@@ -2242,17 +2242,27 @@ footer {
 }
 
 /* Footer Hero Section - Centered Owner Style */
+/* Footer Hero Section - Centered Owner Style */
 .footer-hero {
   position: relative;
-  min-height: 450px;
+  min-height: 500px;
   background-image: url('images/footer_bg.png');
   background-size: cover;
-  background-position: center center;
+  background-position: center bottom;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px 0;
+  padding: 60px 20px 0;
+  margin-top: -2px;
+  /* Smooth connection with previous section */
+}
+
+/* Fix desktop width cut off */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1280px;
+  }
 }
 
 .footer-hero::before {
@@ -2274,25 +2284,26 @@ footer {
   align-items: center;
   text-align: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
+  /* Increased for wider desktop view */
 }
 
 /* Text Above Owner */
 .footer-hero-text {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .footer-subtitle {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: var(--accent-cyan);
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin-bottom: 10px;
-  font-weight: 500;
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .footer-logo-large {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 900;
   color: white;
   line-height: 1;
@@ -2305,29 +2316,32 @@ footer {
 .footer-logo-large span {
   color: var(--accent-cyan);
   font-weight: 400;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   display: block;
-  letter-spacing: 5px;
+  letter-spacing: 6px;
 }
 
 .footer-tagline {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.9);
   font-style: italic;
   margin: 0;
 }
 
-/* Owner Centered */
+/* Owner Centered - Zoomed In */
 .footer-hero-owner-centered {
   margin: 0 auto;
 }
 
 .footer-hero-owner-centered img {
-  height: 280px;
+  height: 480px;
+  /* Significantly Increased */
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
   animation: ownerFloat 4s ease-in-out infinite;
+  margin-bottom: -40px;
+  /* Tuck partially for depth if needed, or keep 0 */
 }
 
 /* CTA Button */
@@ -2337,14 +2351,14 @@ footer {
   gap: 10px;
   background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
   color: white;
-  padding: 14px 35px;
+  padding: 16px 40px;
   border-radius: 50px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
-  margin-top: -30px;
+  margin-top: -50px;
   position: relative;
-  z-index: 3;
+  z-index: 10;
   box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
   transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -2355,7 +2369,68 @@ footer {
 }
 
 .footer-cta-btn i {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+}
+
+/* Fix CSV Pattern - Ensure white fill to match adjacent sections (White) */
+.custom-shape-divider-bottom-1689947849 .shape-fill {
+  fill: #ffffff !important;
+}
+
+.custom-shape-divider-top-1689948270 .shape-fill {
+  fill: #ffffff !important;
+}
+
+/* Ensure shape divider is correctly positioned */
+.custom-shape-divider-bottom-1689947849 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: 10;
+  /* Ensure visible on top */
+}
+
+/* Mobile New Styles */
+@media (max-width: 768px) {
+
+  /* Fix gap issue on mobile */
+  .footer-zen {
+    margin-top: -2px;
+  }
+
+  .footer-hero {
+    min-height: 450px;
+    background-position: center bottom;
+    padding-top: 40px;
+  }
+
+  .footer-hero-text {
+    margin-bottom: 20px;
+  }
+
+  .footer-logo-large {
+    font-size: 2.5rem;
+  }
+
+  .footer-logo-large span {
+    font-size: 1.5rem;
+  }
+
+  /* Zoom owner on mobile */
+  .footer-hero-owner-centered img {
+    height: 300px;
+    /* Increased from 220px */
+  }
+
+  .footer-cta-btn {
+    margin-top: -30px;
+    padding: 14px 30px;
+    font-size: 1.1rem;
+  }
 }
 
 /* Footer Content Section */
