@@ -453,4 +453,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- 12. Scroll-Triggered Active States (Mobile) ---
+    // Use Intersection Observer to add 'scroll-active' class when cards are in viewport
+    if (window.innerWidth <= 768) {
+        const scrollActiveCards = document.querySelectorAll('.fleet-card, .usp-card, .step-item, .info-block');
+
+        const scrollActiveObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('scroll-active');
+                } else {
+                    entry.target.classList.remove('scroll-active');
+                }
+            });
+        }, {
+            threshold: 0.5, // Trigger when 50% visible
+            rootMargin: "-10% 0px -10% 0px" // Slightly offset from center
+        });
+
+        scrollActiveCards.forEach(card => scrollActiveObserver.observe(card));
+    }
+
 });
