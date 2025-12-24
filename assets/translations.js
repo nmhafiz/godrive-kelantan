@@ -326,5 +326,9 @@ const translations = {
     "footer_label_support": {
         "bm": "Bantuan 24/7",
         "en": "24/7 Support"
+    },
+    "footer_cta_book": {
+        "bm": '<i class="ph ph-whatsapp-logo"></i> Tempah Sekarang',
+        "en": '<i class="ph ph-whatsapp-logo"></i> Book Now'
     }
 };

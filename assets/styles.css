@@ -331,12 +331,21 @@ p {
 
 /* Add padding to clear bottom dividers (Divider height ~100px + 50px buffer) */
 #fleet {
-  padding-bottom: 100px;
+  padding-bottom: 80px;
 }
 
 #portfolio {
   padding-bottom: 150px;
   padding-top: 0;
+  margin-top: -100px;
+  /* Force stick */
+  position: relative;
+  z-index: 20;
+}
+
+#portfolio .section-title {
+  margin-top: 30px;
+  /* Add breathing room */
 }
 
 /* USP Section - Standard Padding */
@@ -1983,10 +1992,22 @@ footer {
   }
 
   /* Fix Footer Spacing: Extend footer background BEHIND the bar */
-  footer {
-    padding-bottom: 140px !important;
-    /* Big safe area */
+  /* Fix Footer Spacing: Extend footer background BEHIND the bar */
+  footer,
+  .section-footer,
+  .footer-zen {
+    padding-bottom: 0 !important;
     padding-top: 40px !important;
+    background: #0a1628 !important;
+    /* Force Dark Navy Override */
+  }
+
+  .footer-bottom-zen {
+    padding-bottom: 20px !important;
+    /* Aggressive reduction: Text sits just above sticky bar */
+    padding-top: 5px !important;
+    background: #0a1628 !important;
+    /* Ensure match */
   }
 
   /* Remove body padding so footer color touches bottom (if sticky bar floats) or at least background is seamless */
@@ -2131,86 +2152,92 @@ footer {
 .footer-contact-info p {
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 5px;
+}
 
-  /* --- Mobile Bottom Action Bar (App-Like Floating) --- */
+/* --- Mobile Bottom Action Bar (App-Like Sticky) --- */
+.mobile-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 12px 20px;
+  /* Comfortable touch area */
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  z-index: 9999;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  /* Flush Stick */
+  display: none;
+  /* Hidden on Desktop */
+}
+
+@media (max-width: 768px) {
   .mobile-action-bar {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 10px;
-    z-index: 9999;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    border-radius: 50px;
-    /* Pill Shape */
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    display: none;
-    /* Hidden on Desktop by default */
+    /* Show on Mobile */
   }
 
-  @media (max-width: 768px) {
-    .mobile-action-bar {
-      display: flex;
-      /* Show on Mobile */
-    }
-
-    /* Adjust Floating WA button to sit above the bar if present, or hide it to avoid clutter */
-    .float-wa {
-      bottom: 100px;
-    }
+  /* Adjust Floating WA button to sit above the bar if present, or hide it to avoid clutter */
+  .float-wa {
+    bottom: 100px;
   }
+}
 
-  .action-btn {
-    flex: 1;
-    text-align: center;
-    padding: 12px;
-    border-radius: 30px;
-    font-weight: 800;
-    text-decoration: none;
-    font-family: var(--font-heading);
-    letter-spacing: 0.5px;
-    transition: transform 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-  }
+.action-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: 800;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  letter-spacing: 0.5px;
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
 
-  .call-btn {
-    background: #E5E7EB;
-    /* Metallic Silver */
-    color: var(--text-dark);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
+.call-btn {
+  background: #E5E7EB;
+  /* Metallic Silver */
+  color: var(--text-dark);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-  .wa-btn {
-    background: #25D366;
-    /* WhatsApp Green */
-    color: white;
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
-  }
+.wa-btn {
+  background: #25D366;
+  /* WhatsApp Green */
+  color: white;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
 
-  .wa-btn:hover,
-  .call-btn:hover {
-    transform: scale(1.02);
-  }
+.wa-btn:hover,
+.call-btn:hover {
+  transform: scale(1.02);
+}
 }
 
 /* Closing media query from line 1996 */
 /* Clean Map Container */
 .map-container {
   width: 100%;
-  height: 350px;
+  height: 550px !important;
+  /* Zen Size: Forced height for desktop */
+  min-height: 550px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  border: 4px solid #ffffff;
+  /* Zen Frame: White Border */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* Soft, elevated shadow */
   transition: box-shadow 0.3s ease;
 }
 
@@ -2415,14 +2442,25 @@ footer {
   /* Let map sit flush if needed */
 }
 
-/* Fix Map Gap */
+/* Fix Map Gap & Size */
 #about iframe,
 .map-container iframe {
   display: block;
+  width: 100% !important;
+  height: 100% !important;
+  /* Force Fill Container (550px) */
+  border: 0;
 }
 
 /* Mobile New Styles */
 @media (max-width: 768px) {
+
+  /* Mobile Map Zen Sizing */
+  .map-container {
+    height: 400px;
+    /* Mobile Zen Size */
+    border-radius: var(--radius-md);
+  }
 
   /* Fix gap issue on mobile */
   .footer-zen {
@@ -2770,6 +2808,27 @@ footer .contact-list .label,
   color: #00C2FF !important;
 }
 
+/* Zen Developer Credit */
+.developer-credit {
+  margin-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 10px;
+  display: inline-block;
+  opacity: 0.9;
+}
+
+.developer-credit a {
+  color: white !important;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.developer-credit a:hover {
+  color: var(--accent-cyan) !important;
+  text-decoration: underline;
+}
+
 /* --- Fine-tuned Footer Alignment --- */
 
 /* 1. Ensure Contact List items align nicely */
@@ -2924,6 +2983,112 @@ footer .contact-list .label,
 
   .nav-link {
     font-size: 1.25rem;
+  }
+
+  /* 10. Portfolio Mobile Fix */
+  #portfolio {
+    padding-bottom: 150px !important;
+    /* Fix overlapping border */
+    padding-top: 0 !important;
+    /* Keep stick */
+    margin-top: -60px !important;
+    /* Mobile stick adjustment */
+  }
+
+  #portfolio .section-title {
+    margin-top: 20px !important;
+  }
+
+  /* 11. Services Mobile Fix (Clear Top Wave) */
+  #services {
+    padding-top: 120px !important;
+    /* 60px Wave + 60px Zen Gap */
+  }
+
+  /* 12. Footer Mobile Zen Clean (Stacked) */
+  .footer-grid-mobile {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center !important;
+    /* Force center items */
+    text-align: center !important;
+    /* Force center text */
+    gap: 40px !important;
+  }
+
+  .footer-grid-mobile ul {
+    padding-left: 0 !important;
+    /* Remove list indent */
+    margin: 0 !important;
+    list-style: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center list items */
+  }
+
+  .footer-grid-mobile li {
+    width: 100%;
+    display: flex;
+    /* Flex on ALL LIs (Pautan Pantas & Contact) */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+  }
+
+  /* Remove Card Style from Contact Items */
+  .footer-content .contact-list li,
+  .footer-col .contact-list li {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 40px !important;
+    /* More spacing between contacts */
+  }
+
+  .footer-content .contact-list .ph,
+  .footer-col .contact-list .ph {
+    background: transparent !important;
+    font-size: 2.8rem !important;
+    /* Even Bigger Icon */
+    padding: 0 !important;
+    margin-bottom: 15px !important;
+    color: var(--accent-cyan);
+  }
+
+  /* Bigger text for readability + Center */
+  .contact-list div {
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .contact-list a {
+    font-size: 1.3rem !important;
+    /* Larger for easy tap */
+    font-weight: 700 !important;
+    display: block;
+    /* Ensure it takes full width/center */
+  }
+
+  .contact-list .label {
+    font-size: 1rem !important;
+    margin-bottom: 8px !important;
+    opacity: 0.8;
+    display: block;
+  }
+
+  /* Developer Credit Stack */
+  .developer-credit {
+    display: block !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    /* Matches Zen Style */
+    opacity: 0.8;
   }
 }
 
@@ -3643,5 +3808,40 @@ section[id="how-to"]>*,
   .step-item.scroll-active .step-number {
     background: linear-gradient(135deg, var(--primary-color), var(--accent-cyan));
     transform: scale(1.1);
+  }
+}
+/* --- FINAL ZEN MAP FIX (v2.998) --- */
+.map-container-zen {
+  width: 100%;
+  height: 550px !important; /* Forces Desktop Size */
+  min-height: 550px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 4px solid #ffffff; /* Zen Frame */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); /* Elevated Shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  background: #f0f0f0; /* Loader background */
+}
+
+/* Force Iframe Fill */
+.map-container-zen iframe {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  border: 0;
+}
+
+/* Hover Effect */
+.map-container-zen:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile Override */
+@media (max-width: 768px) {
+  .map-container-zen {
+    height: 400px !important; /* Mobile Zen Size */
+    min-height: 400px;
   }
 }
