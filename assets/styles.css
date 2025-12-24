@@ -2406,7 +2406,8 @@ footer {
 /* Use specific ID for About margin fix if needed */
 #about {
   margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
+  padding-bottom: 100px !important;
+  /* Zen Space */
   /* Let map sit flush if needed */
 }
 
