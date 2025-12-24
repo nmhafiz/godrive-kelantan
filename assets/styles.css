@@ -2232,36 +2232,154 @@ footer {
   /* Force override even if class is present */
 }
 
-/* --- Zen Premium Footer --- */
+/* --- Zen Premium Footer - Hero Style --- */
 .footer-zen {
-  background: linear-gradient(135deg, #0f172a 0%, #1c39bb 100%);
+  background: linear-gradient(180deg, #0a1628 0%, #1c39bb 100%);
   color: white;
-  padding: 80px 0 30px;
   position: relative;
   overflow: hidden;
+  padding: 0;
 }
 
-.footer-zen::before {
+/* Footer Hero Section - Full Background */
+.footer-hero {
+  position: relative;
+  min-height: 280px;
+  background-image: url('images/footer_bg.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  padding: 30px 20px;
+}
+
+.footer-hero::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('images/footer_bg.png');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.4;
+  background: linear-gradient(to top, rgba(10, 22, 40, 0.95) 0%, rgba(10, 22, 40, 0.3) 50%, transparent 100%);
   pointer-events: none;
+}
+
+.footer-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  width: 100%;
+}
+
+.footer-hero-owner {
+  flex-shrink: 0;
+}
+
+.footer-hero-owner img {
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.6));
+  animation: ownerFloat 4s ease-in-out infinite;
+}
+
+.footer-hero-text {
+  flex: 1;
+}
+
+.footer-hero-text .footer-logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer-hero-text .footer-logo span {
+  color: var(--accent-cyan);
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Footer Content Section */
+.footer-content {
+  background: rgba(10, 22, 40, 0.95);
+  padding: 40px 20px;
+}
+
+.footer-grid-mobile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: var(--accent-cyan);
 }
 
 /* Mobile footer background - show airplane & car */
 @media (max-width: 768px) {
-  .footer-zen::before {
-    background-size: 200% auto;
-    background-position: 30% bottom;
-    opacity: 0.35;
+  .footer-hero {
+    min-height: 260px;
+    background-position: 40% center;
+  }
+
+  .footer-hero-owner img {
+    height: 180px;
+  }
+
+  .footer-hero-text .footer-logo {
+    font-size: 1.5rem;
+  }
+
+  .footer-hero-text .footer-logo span {
+    font-size: 1rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.8rem;
+  }
+
+  .footer-grid-mobile {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
 }
 
