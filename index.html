@@ -32,7 +32,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=3.05">
+    <link rel="stylesheet" href="assets/styles.css?v=3.11">
 
     <!-- Phosphor Icons via CSS (Correct) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
@@ -116,12 +116,15 @@
     <header class="navbar glass">
         <div class="container nav-container">
             <a href="#" class="logo">GO ROCKET <span>CAR RENTAL</span></a>
-            <nav class="nav-menu" id="navMenu">
+
+            <!-- Desktop Navigation (Hidden on Mobile) -->
+            <nav class="desktop-nav">
                 <a href="#usp" class="nav-link" data-i18n="nav_usp">Kelebihan</a>
                 <a href="#fleet" class="nav-link" data-i18n="nav_fleet">Senarai Kereta</a>
                 <a href="#how-to" class="nav-link" data-i18n="nav_howto">Cara Tempah</a>
                 <a href="#contact" class="nav-link btn-primary" data-i18n="nav_contact">Hubungi Kami</a>
             </nav>
+
             <div class="nav-controls">
                 <div class="lang-toggle-container">
                     <button class="lang-btn active" data-lang="bm">BM</button>
@@ -131,7 +134,8 @@
                 <button id="musicToggle" class="icon-btn" aria-label="Toggle background music">
                     <i id="musicIcon" class="ph ph-speaker-slash"></i>
                 </button>
-                <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <button class="hamburger" id="hamburger" aria-label="Open menu"
+                    style="position: relative; z-index: 1005;">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -139,6 +143,19 @@
             </div>
         </div>
     </header>
+
+    <!-- Mobile Navigation Menu (Overlay - Outside Header) -->
+    <nav class="mobile-nav" id="mobileMenu">
+        <button id="navClose" class="nav-close-btn" aria-label="Close menu">
+            <i class="ph ph-x"></i>
+        </button>
+        <a href="#usp" class="nav-link" data-i18n="nav_usp">Kelebihan</a>
+        <a href="#fleet" class="nav-link" data-i18n="nav_fleet">Senarai Kereta</a>
+        <a href="#how-to" class="nav-link" data-i18n="nav_howto">Cara Tempah</a>
+        <a href="#contact" class="nav-link btn-primary" data-i18n="nav_contact">Hubungi Kami</a>
+    </nav>
+
+
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1007,7 +1024,7 @@
 
     <!-- Scripts -->
     <script src="assets/translations.js?v=2.998"></script>
-    <script src="assets/main.js"></script>
+    <script src="assets/main.js?v=3.11"></script>
 </body>
 
 </html>

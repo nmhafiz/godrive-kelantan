@@ -3,17 +3,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. Mobile Menu Toggle ---
+    // --- 1. Mobile Menu Toggle (Refactored v3.11) ---
     const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navClose = document.getElementById('navClose');
 
-    if (hamburger && navMenu) {
+    if (hamburger && mobileMenu) {
+        // Toggle Menu
         hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
 
-            // Toggle hamburger animation state
+            // X Animation
             const bars = hamburger.querySelectorAll('.bar');
-            if (navMenu.classList.contains('active')) {
-                // Simple X transformation
+            if (mobileMenu.classList.contains('active')) {
                 bars[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
                 bars[1].style.opacity = '0';
                 bars[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
@@ -24,17 +27,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close menu when a link is clicked
-        document.querySelectorAll('.nav-link').forEach(link => {
+        // Close when clicking links
+        document.querySelectorAll('.mobile-nav .nav-link').forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                // Reset hamburger
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                // Reset bars
                 const bars = hamburger.querySelectorAll('.bar');
                 bars[0].style.transform = 'none';
                 bars[1].style.opacity = '1';
                 bars[2].style.transform = 'none';
             });
         });
+
+        // Close when clicking OUTSIDE
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                // Reset bars
+                const bars = hamburger.querySelectorAll('.bar');
+                bars[0].style.transform = 'none';
+                bars[1].style.opacity = '1';
+                bars[2].style.transform = 'none';
+            }
+        });
+
+        // Dedicated Close Button
+        if (navClose) {
+            navClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                // Reset bars
+                const bars = hamburger.querySelectorAll('.bar');
+                bars[0].style.transform = 'none';
+                bars[1].style.opacity = '1';
+                bars[2].style.transform = 'none';
+            });
+        }
     }
 
     // --- 2. Scroll Animation (IntersectionObserver) ---
