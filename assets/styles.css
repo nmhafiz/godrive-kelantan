@@ -2256,12 +2256,12 @@ footer {
   pointer-events: none;
 }
 
-/* Mobile footer background optimization */
+/* Mobile footer background - show airplane & car */
 @media (max-width: 768px) {
   .footer-zen::before {
-    background-size: cover;
-    background-position: right center;
-    opacity: 0.25;
+    background-size: 200% auto;
+    background-position: 30% bottom;
+    opacity: 0.35;
   }
 }
 
@@ -2319,68 +2319,29 @@ footer {
   }
 }
 
-/* Owner Fullbody in Footer Brand Column */
+/* Owner Fullbody in Footer Brand Column - Professional */
 .owner-fullbody-wrapper {
   position: relative;
-  margin-top: 20px;
-  display: inline-block;
+  margin-top: 25px;
+  text-align: center;
 }
 
 .owner-fullbody-wrapper img {
-  height: 180px;
+  height: 220px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.5));
   animation: ownerFloat 4s ease-in-out infinite;
-}
-
-.owner-status {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  padding: 6px 14px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: white;
-  white-space: nowrap;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.7;
-    transform: scale(1.2);
-  }
+  border-radius: 0 0 20px 20px;
 }
 
 @media (max-width: 768px) {
   .owner-fullbody-wrapper {
-    text-align: center;
-    width: 100%;
+    margin-top: 20px;
   }
 
   .owner-fullbody-wrapper img {
-    height: 150px;
+    height: 160px;
   }
 }
 
