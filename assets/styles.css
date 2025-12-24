@@ -2605,8 +2605,8 @@ footer {
   }
 
   .footer-hero {
-    min-height: 480px;
-    /* Increase height for zoom */
+    min-height: 55vh;
+    /* Viewport-based for responsiveness */
     background-position: center bottom;
     padding-top: 40px;
     align-items: flex-end;
@@ -2632,10 +2632,16 @@ footer {
     }
   }
 
-  /* Zoom owner on mobile */
+  /* Zoom owner on mobile - Viewport Based */
   .footer-hero-owner-centered img {
-    height: 360px;
-    /* Increased from 300px for ZOOM */
+    height: 55vh;
+    /* Scales with screen height */
+    max-height: 500px;
+    /* Cap for very tall screens */
+    min-height: 320px;
+    /* Minimum for small screens */
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 60px rgba(28, 57, 187, 0.3));
+    /* Enhanced glow */
   }
 
   .footer-cta-btn {
