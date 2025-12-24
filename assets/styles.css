@@ -2498,78 +2498,7 @@ footer {
   color: var(--accent-cyan);
 }
 
-/* Social links in footer content */
-.footer-content .social-links-zen {
-  display: flex;
-  gap: 15px;
-  justify-content: flex-start;
-}
 
-/* ===== MOBILE FOOTER STYLES ===== */
-@media (max-width: 768px) {
-
-  /* New Mobile Styles for Centered Footer */
-  .footer-hero {
-    min-height: 400px;
-    background-position: center bottom;
-    padding-top: 50px;
-    align-items: flex-start;
-    /* Move content up */
-  }
-
-  .footer-hero-text {
-    margin-bottom: 20px;
-  }
-
-  .footer-logo-large {
-    font-size: 2.2rem;
-  }
-
-  .footer-logo-large span {
-    font-size: 1.3rem;
-  }
-
-  .footer-hero-owner-centered img {
-    height: 220px;
-  }
-
-  .footer-cta-btn {
-    margin-top: -25px;
-    padding: 12px 25px;
-    font-size: 1rem;
-  }
-
-  .footer-content {
-    padding: 40px 20px;
-  }
-
-  .footer-grid-mobile {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    text-align: center;
-  }
-
-  .footer-section h4 {
-    font-size: 1.15rem;
-    margin-bottom: 18px;
-  }
-
-  .footer-section ul li a {
-    font-size: 0.9rem;
-  }
-
-  /* Optimize contact list for mobile stack */
-  .footer-content .contact-list li {
-    justify-content: center;
-    text-align: left;
-    max-width: 300px;
-    margin: 0 auto 15px;
-  }
-
-  .footer-content .social-links-zen {
-    justify-content: center;
-  }
-}
 
 /* Owner floating animation keyframes */
 @keyframes ownerFloat {
