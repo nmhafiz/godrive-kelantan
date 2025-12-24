@@ -3020,21 +3020,29 @@ footer .contact-list .label,
 
   /* Fix contact list alignment on mobile */
   .contact-list li {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    text-align: left;
-    padding: 10px 14px;
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    /* icon | label | phone */
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
     font-size: 0.95rem;
-    gap: 10px;
+  }
+
+  /* Icon column */
+  .contact-list .ph {
+    font-size: 1.2rem;
+    padding: 6px;
   }
 
   /* Prevent phone number from wrapping */
   .contact-list a {
     white-space: nowrap;
     font-size: 1rem;
+    text-align: right;
   }
 
-  /* Stack label and phone vertically for cleaner look */
+  /* Label styling */
   .contact-list li strong {
     white-space: nowrap;
     font-size: 0.85rem;
