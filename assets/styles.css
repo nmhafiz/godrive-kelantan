@@ -2245,18 +2245,20 @@ footer {
 /* Footer Hero Section - Centered Owner Style */
 .footer-hero {
   position: relative;
-  min-height: 500px;
+  min-height: 600px;
+  /* Increased to fit taller image */
   background-image: url('images/footer_bg.png');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
   display: flex;
   align-items: flex-end;
-  /* Align to bottom to prevent cutoff */
+  /* Align to bottom */
   justify-content: center;
   padding: 60px 20px 0;
   margin-top: -2px;
-  /* Smooth connection with previous section */
+  overflow: visible;
+  /* Ensure nothing cuts off */
 }
 
 /* Fix desktop width cut off */
@@ -2390,13 +2392,14 @@ footer {
 /* Ensure shape divider is correctly positioned */
 .custom-shape-divider-bottom-1689947849 {
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   /* Overlap to fix gap */
   left: 0;
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  transform: rotate(180deg);
+  transform: none;
+  /* Reset rotation */
   z-index: 10;
   /* Ensure visible on top */
 }
@@ -2406,6 +2409,12 @@ footer {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
   /* Let map sit flush if needed */
+}
+
+/* Fix Map Gap */
+#about iframe,
+.map-container iframe {
+  display: block;
 }
 
 /* Mobile New Styles */
