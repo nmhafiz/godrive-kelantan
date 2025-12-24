@@ -3018,11 +3018,26 @@ footer .contact-list .label,
     width: fit-content;
   }
 
-  /* Center contacts on mobile */
+  /* Fix contact list alignment on mobile */
   .contact-list li {
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     text-align: left;
-    /* Keep text aligned left even if centered in container */
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    gap: 10px;
+  }
+
+  /* Prevent phone number from wrapping */
+  .contact-list a {
+    white-space: nowrap;
+    font-size: 1rem;
+  }
+
+  /* Stack label and phone vertically for cleaner look */
+  .contact-list li strong {
+    white-space: nowrap;
+    font-size: 0.85rem;
   }
 }
 
