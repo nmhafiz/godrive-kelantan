@@ -551,71 +551,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- 5. USP Section Auto-Scroll (Mobile Only) ---
-        // CRITICAL CHECK: ONLY EXECUTE IF MOBILE
         if (window.innerWidth <= 768) {
             const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
             if (uspContainer) {
 
-                // 1. Super Buffer Strategy (Manual + Auto Hybrid)
-                // We clone content 10 times to create a massive buffer
-                // This allows users to manual scroll freely without hitting edges soon.
-                // When auto-scrolling hits end (very rare), we reset.
+                // FORCE: Enable auto scrolling behavior explicitly (overwrite CSS smooth scroll)
+                uspContainer.style.scrollBehavior = 'auto'; // CRITICAL Fix for JS drift
 
+                // 1. Super Buffer Strategy
                 const originalItems = Array.from(uspContainer.children);
-
-                // Remove 'scroll-reveal' to ensure visibility
                 originalItems.forEach(item => {
                     item.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
                     item.style.opacity = '1';
                     item.style.transform = 'none';
                 });
 
-                // Clone 10 times (Safe Buffer)
+                // Clone 10 times
                 for (let i = 0; i < 10; i++) {
                     originalItems.forEach(item => {
                         const clone = item.cloneNode(true);
-                        // Ensure clones are clean
                         clone.classList.remove('scroll-reveal');
                         clone.style.opacity = '1';
                         clone.style.transform = 'none';
-                        clone.setAttribute('aria-hidden', 'true'); // Only original is semantic
+                        clone.setAttribute('aria-hidden', 'true');
                         uspContainer.appendChild(clone);
                     });
                 }
 
-                // 2. Gentle Auto Drift
-                let driftInterval;
+                // 2. Optimized RequestAnimationFrame Drift
+                let driftId;
                 let isPaused = false;
 
-                function startDrift() {
-                    if (driftInterval) clearInterval(driftInterval);
-                    driftInterval = setInterval(() => {
-                        if (!isPaused) {
-                            uspContainer.scrollLeft += 1; // 1px/tick 
+                function driftEngine() {
+                    if (!isPaused) {
+                        uspContainer.scrollLeft += 1;
 
-                            // Rare Reset: If pixel perfection fails after 10000px, 
-                            // we just bounce back to 0 silently if user isn't holding it.
-                            if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
-                                uspContainer.scrollLeft = 0;
-                            }
+                        // Reset when end reached
+                        if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
+                            uspContainer.scrollLeft = 0;
                         }
-                    }, 30); // 30ms = ~33fps (Gentle)
+                    }
+                    driftId = requestAnimationFrame(driftEngine);
                 }
 
-                // 3. Manual Override
+                // 3. User Interaction Handling
                 uspContainer.addEventListener('touchstart', () => {
                     isPaused = true;
+                    // Note: We don't stop the animation frame, just the increment
                 }, { passive: true });
 
                 uspContainer.addEventListener('touchend', () => {
-                    setTimeout(() => { isPaused = false; }, 3000); // Wait 3s before resuming
+                    setTimeout(() => { isPaused = false; }, 3000); // 3s pause after touch
                 }, { passive: true });
 
-                startDrift();
+                // Start Engine
+                driftEngine();
             }
-        } // End Mobile Check
-
-        startAutoScroll();
+        }
+        // DESKTOP: Do NOTHING. No clones, no JS.
     }
 
     // --- 10. Navbar Shrink on Scroll ---
