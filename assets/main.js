@@ -585,10 +585,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 2. Drift Engine (Independent per container)
                 let driftId;
-                let isPaused = false;
+                let isPaused = false;        // Temporary pause (Touch)
+                let isVideoWatching = false; // Permanent pause (Video Playing)
+
+                // Detect Video Mute Toggle inside THIS container
+                const muteBtns = container.querySelectorAll('.video-mute-btn');
+                muteBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Small delay to allow class toggle to happen in other listener
+                        setTimeout(() => {
+                            if (btn.classList.contains('unmuted')) {
+                                isVideoWatching = true; // User is watching! Stop the world.
+                                container.style.scrollSnapType = 'x mandatory'; // Snap to video
+                            } else {
+                                isVideoWatching = false; // Resume drift
+                                if (!isPaused) {
+                                    container.style.scrollSnapType = 'none'; // Unsnap only if not touching
+                                }
+                            }
+                        }, 50);
+                    });
+                });
 
                 function driftEngine() {
-                    if (!isPaused) {
+                    // Only drift if NOT touched AND NOT watching video
+                    if (!isPaused && !isVideoWatching) {
                         container.scrollLeft += 1;
 
                         if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 5)) {
@@ -611,8 +632,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.addEventListener('touchend', () => {
                     setTimeout(() => {
                         isPaused = false;
-                        container.style.scrollSnapType = 'none'; // DISABLE SNAP AGAIN
-                        container.style.scrollBehavior = 'auto'; // Back to linear drift
+                        // Only disable snap if we are NOT watching a video
+                        if (!isVideoWatching) {
+                            container.style.scrollSnapType = 'none'; // DISABLE SNAP AGAIN
+                            container.style.scrollBehavior = 'auto'; // Back to linear drift
+                        }
                     }, 3000);
                 }, { passive: true });
 
