@@ -749,4 +749,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+    // --- 14. Mobile Floating CTA Logic (Contextual Switch) ---
+    const mobileActionBar = document.querySelector('.mobile-action-bar');
+    const floatingWhatsApp = document.querySelector('.floating-whatsapp');
+    const heroCtaTarget = document.querySelector('.hero'); // Fixed: Use class selector
+
+    if (mobileActionBar && floatingWhatsApp && heroCtaTarget) {
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth > 768) return; // Mobile only check
+
+            const heroBottom = heroCtaTarget.getBoundingClientRect().bottom;
+            const threshold = 100; // Trigger slightly before hero ends completely
+
+            // If Hero is out of view (scrolled past), Show Bar, Hide WA Button
+            if (heroBottom < threshold) {
+                if (!mobileActionBar.classList.contains('visible')) {
+                    mobileActionBar.classList.add('visible');
+                    floatingWhatsApp.classList.add('hidden');
+                }
+            } else {
+                // In Hero View -> Show WA Button, Hide Bar
+                if (mobileActionBar.classList.contains('visible')) {
+                    mobileActionBar.classList.remove('visible');
+                    floatingWhatsApp.classList.remove('hidden');
+                }
+            }
+        });
+    }
+
 });
