@@ -4756,7 +4756,8 @@ section[id="how-to"]>*,
 
 /* --- USP Zen Scroll (Native + Snap) --- */
 #usp .grid-3,
-#usp .grid-2 {
+#usp .grid-2,
+#portfolio .grid-3 {
   display: flex !important;
   overflow-x: auto !important;
   /* Enable manual scroll */

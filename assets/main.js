@@ -550,16 +550,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- 5. USP Section Auto-Scroll (Mobile Only - Hybrid Snap v2) ---
+        // --- 5. Universal Mobile Auto-Scroll (USP & Video) ---
         if (window.innerWidth <= 768) {
-            const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
-            if (uspContainer) {
+            // Target BOTH USP and Video Portfolio containers
+            const scrollContainers = document.querySelectorAll('#usp .grid-3, #usp .grid-2, #portfolio .grid-3');
+
+            scrollContainers.forEach(container => {
+                if (!container) return;
 
                 // 1. Initial State: Disable Snap to allow Drift
-                uspContainer.style.scrollBehavior = 'auto';
-                uspContainer.style.scrollSnapType = 'none'; // DISABLE SNAP initially
+                container.style.scrollBehavior = 'auto';
+                container.style.scrollSnapType = 'none'; // DISABLE SNAP initially
 
-                const originalItems = Array.from(uspContainer.children);
+                const originalItems = Array.from(container.children);
 
                 // Clean styles
                 originalItems.forEach(item => {
@@ -576,20 +579,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         clone.style.opacity = '1';
                         clone.style.transform = 'none';
                         clone.setAttribute('aria-hidden', 'true');
-                        uspContainer.appendChild(clone);
+                        container.appendChild(clone);
                     });
                 }
 
-                // 2. Drift Engine
+                // 2. Drift Engine (Independent per container)
                 let driftId;
                 let isPaused = false;
 
                 function driftEngine() {
                     if (!isPaused) {
-                        uspContainer.scrollLeft += 1;
+                        container.scrollLeft += 1;
 
-                        if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
-                            uspContainer.scrollLeft = 0;
+                        if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 5)) {
+                            container.scrollLeft = 0;
                         }
                     }
                     driftId = requestAnimationFrame(driftEngine);
@@ -598,24 +601,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 3. Smart Interaction (Toggle Snap)
 
                 // On Touch: Enable Snap (Manual Feel) & Pause Drift
-                uspContainer.addEventListener('touchstart', () => {
+                container.addEventListener('touchstart', () => {
                     isPaused = true;
-                    uspContainer.style.scrollSnapType = 'x mandatory'; // ENABLE SNAP
-                    uspContainer.style.scrollBehavior = 'smooth';
+                    container.style.scrollSnapType = 'x mandatory'; // ENABLE SNAP
+                    container.style.scrollBehavior = 'smooth';
                 }, { passive: true });
 
                 // On Touch End: Wait, then Disable Snap & Resume Drift
-                uspContainer.addEventListener('touchend', () => {
+                container.addEventListener('touchend', () => {
                     setTimeout(() => {
                         isPaused = false;
-                        uspContainer.style.scrollSnapType = 'none'; // DISABLE SNAP AGAIN
-                        uspContainer.style.scrollBehavior = 'auto'; // Back to linear drift
+                        container.style.scrollSnapType = 'none'; // DISABLE SNAP AGAIN
+                        container.style.scrollBehavior = 'auto'; // Back to linear drift
                     }, 3000);
                 }, { passive: true });
 
-                // Start
+                // Start Engine
                 driftEngine();
-            }
+            });
         }
     }
 
