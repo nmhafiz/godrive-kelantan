@@ -4753,3 +4753,25 @@ section[id="how-to"]>*,
   background: var(--primary-color);
   color: white;
 }
+/* --- USP Infinite Marquee (CSS Driven) --- */
+.usp-marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+    will-change: transform;
+}
+
+#usp .grid-3,
+#usp .grid-2 {
+    display: block !important; /* Override grid/flex container */
+    overflow: hidden !important;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    width: 100%;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}

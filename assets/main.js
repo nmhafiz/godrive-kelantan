@@ -620,13 +620,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 singleSetWidth = (cardWidth + gap) * originalCount;
             }
 
-            // 2. Clone content for seamless loop
+            // 2. Clone content multiple times for seamless loop (Buffer)
+            // Cloning 4 times ensures we never see empty space even on wide screens
             const originalContent = Array.from(uspContainer.children);
-            originalContent.forEach(child => {
-                const clone = child.cloneNode(true);
-                clone.setAttribute('aria-hidden', 'true'); // Accessibility
-                uspContainer.appendChild(clone);
-            });
+            for (let i = 0; i < 4; i++) {
+                originalContent.forEach(child => {
+                    const clone = child.cloneNode(true);
+                    clone.setAttribute('aria-hidden', 'true'); // Accessibility
+                    uspContainer.appendChild(clone);
+                });
+            }
 
             // 3. Continuous Scroll Logic
             let scrollPos = 0;
