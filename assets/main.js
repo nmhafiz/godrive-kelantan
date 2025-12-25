@@ -607,8 +607,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2'); // Handle potential class variation
         if (uspContainer) {
 
-            // 1. Clone content for seamless loop
-            // We clone the children once so we can scroll past the end and jump back to 0 visually.
+            // 1. Measure layout *before* cloning to get exact reset point
+            // We need to account for the gap visually
+            const style = window.getComputedStyle(uspContainer);
+            const gap = parseFloat(style.gap) || 20; // Default 20px if fail
+
+            let singleSetWidth = 0;
+            if (uspContainer.children.length > 0) {
+                const cardWidth = uspContainer.children[0].offsetWidth;
+                const originalCount = uspContainer.children.length;
+                // Calculate exact width of the original set (Cards + Gaps)
+                singleSetWidth = (cardWidth + gap) * originalCount;
+            }
+
+            // 2. Clone content for seamless loop
             const originalContent = Array.from(uspContainer.children);
             originalContent.forEach(child => {
                 const clone = child.cloneNode(true);
@@ -616,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 uspContainer.appendChild(clone);
             });
 
-            // 2. Continuous Scroll Logic
+            // 3. Continuous Scroll Logic
             let scrollPos = 0;
             let isPaused = false;
             let animationId;
@@ -625,10 +637,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isPaused) {
                     scrollPos += 1; // Speed: 1px per frame (Very Smooth)
 
-                    // If we have scrolled past the FIRST SET of items, reset to 0
-                    // We assume the cloned set is identical width.
-                    // scrollWidth is roughly 2x visible width now.
-                    if (scrollPos >= uspContainer.scrollWidth / 2) {
+                    // Reset Logic: When we have scrolled past the entire first set
+                    // We use the PRE-CALCULATED width.
+                    // Fallback to scrollWidth/2 if measurement failed (e.g. hidden on load)
+                    const resetPoint = singleSetWidth > 0 ? singleSetWidth : (uspContainer.scrollWidth / 2);
+
+                    if (scrollPos >= resetPoint) {
                         scrollPos = 0;
                     }
 
