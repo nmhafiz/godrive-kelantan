@@ -550,58 +550,68 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- 5. USP Section Auto-Scroll (Robust CSS Marquee) ---
+        // --- 5. USP Section Auto-Scroll (Native + Drift Hybrid) ---
         // Target specifically the "Kenapa Pilih Go Rocket" section
         const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
         if (uspContainer) {
 
-            // 1. Create a "Track" wrapper for CSS animation
-            const track = document.createElement('div');
-            track.className = 'usp-marquee-track';
+            // 1. Super Buffer Strategy (Manual + Auto Hybrid)
+            // We clone content 10 times to create a massive buffer
+            // This allows users to manual scroll freely without hitting edges soon.
+            // When auto-scrolling hits end (very rare), we reset.
 
-            // 2. Capture original items
-            // Remove 'scroll-reveal' class from original items so they are visible
             const originalItems = Array.from(uspContainer.children);
+
+            // Remove 'scroll-reveal' to ensure visibility
             originalItems.forEach(item => {
                 item.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
                 item.style.opacity = '1';
                 item.style.transform = 'none';
             });
 
-            // 3. Populate Track with CLONES (buffer)
-            // We create 4 duplicate sets [Set][Set][Set][Set]
-            // CSS moves from 0 to -50% (scrolling past first 2 sets).
-
-            for (let i = 0; i < 4; i++) {
+            // Clone 10 times (Safe Buffer)
+            for (let i = 0; i < 10; i++) {
                 originalItems.forEach(item => {
                     const clone = item.cloneNode(true);
-                    // Accessibility: Only first set is "real", others decorative?
-                    // Actually for marquee, all are visible.
-                    if (i > 0) clone.setAttribute('aria-hidden', 'true');
-
-                    // Ensure clones are visible
-                    clone.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
+                    // Ensure clones are clean
+                    clone.classList.remove('scroll-reveal');
                     clone.style.opacity = '1';
                     clone.style.transform = 'none';
-
-                    track.appendChild(clone);
+                    if (i > 0) clone.setAttribute('aria-hidden', 'true');
+                    uspContainer.appendChild(clone);
                 });
             }
 
-            // 4. Inject Track
-            uspContainer.innerHTML = '';
-            uspContainer.appendChild(track);
+            // 2. Gentle Auto Drift
+            let driftInterval;
+            let isPaused = false;
 
-            // 5. Pause Interaction
-            const pause = () => { track.style.animationPlayState = 'paused'; };
-            const resume = () => { track.style.animationPlayState = 'running'; };
+            function startDrift() {
+                if (driftInterval) clearInterval(driftInterval);
+                driftInterval = setInterval(() => {
+                    if (!isPaused) {
+                        uspContainer.scrollLeft += 1; // 1px/tick 
 
-            uspContainer.addEventListener('mouseenter', pause);
-            uspContainer.addEventListener('mouseleave', resume);
-            uspContainer.addEventListener('touchstart', pause, { passive: true });
-            uspContainer.addEventListener('touchend', () => {
-                setTimeout(resume, 2000);
+                        // Rare Reset: If pixel perfection fails after 10000px, 
+                        // we just bounce back to 0 silently if user isn't holding it.
+                        // With 10x buffer, this is unlikely to be noticed.
+                        if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
+                            uspContainer.scrollLeft = 0;
+                        }
+                    }
+                }, 30); // 30ms = ~33fps (Gentle)
+            }
+
+            // 3. Manual Override (The Key Requirement)
+            uspContainer.addEventListener('touchstart', () => {
+                isPaused = true;
             }, { passive: true });
+
+            uspContainer.addEventListener('touchend', () => {
+                setTimeout(() => { isPaused = false; }, 3000); // Wait 3s before resuming
+            }, { passive: true });
+
+            startDrift();
         }
 
         startAutoScroll();
