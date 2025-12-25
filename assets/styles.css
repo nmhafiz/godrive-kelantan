@@ -4775,3 +4775,20 @@ section[id="how-to"]>*,
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
+
+/* --- USP Marquee Item Safety (Mobile) --- */
+.usp-marquee-track > * {
+    flex: 0 0 auto !important; /* Prevent shrinking */
+    width: 85vw !important; /* Mobile width */
+    max-width: 350px !important;
+    opacity: 1 !important; /* Force visible */
+    transform: none !important; /* Reset scroll-reveal transform */
+    margin-right: 20px !important;
+}
+
+@media (min-width: 769px) {
+    .usp-marquee-track > * {
+        width: auto !important; /* Let content dictate width on desktop */
+        min-width: 300px;
+    }
+}

@@ -560,15 +560,30 @@ document.addEventListener('DOMContentLoaded', () => {
             track.className = 'usp-marquee-track';
 
             // 2. Capture original items
+            // Remove 'scroll-reveal' class from original items so they are visible
             const originalItems = Array.from(uspContainer.children);
+            originalItems.forEach(item => {
+                item.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
+                item.style.opacity = '1';
+                item.style.transform = 'none';
+            });
 
             // 3. Populate Track with CLONES (buffer)
             // We create 4 duplicate sets [Set][Set][Set][Set]
             // CSS moves from 0 to -50% (scrolling past first 2 sets).
+
             for (let i = 0; i < 4; i++) {
                 originalItems.forEach(item => {
                     const clone = item.cloneNode(true);
+                    // Accessibility: Only first set is "real", others decorative?
+                    // Actually for marquee, all are visible.
                     if (i > 0) clone.setAttribute('aria-hidden', 'true');
+
+                    // Ensure clones are visible
+                    clone.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
+                    clone.style.opacity = '1';
+                    clone.style.transform = 'none';
+
                     track.appendChild(clone);
                 });
             }
