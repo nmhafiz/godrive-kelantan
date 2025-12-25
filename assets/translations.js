@@ -255,8 +255,8 @@ const translations = {
         en: '<i class="ph ph-whatsapp-logo"></i> WhatsApp Now'
     },
     "rights_reserved": {
-        bm: "© 2025 Go Rocket Car Rental Kelantan. Hak Cipta Terpelihara.",
-        en: "© 2025 Go Rocket Car Rental Kelantan. All Rights Reserved."
+        bm: "© 2026 Go Rocket Car Rental Kelantan. Hak Cipta Terpelihara.",
+        en: "© 2026 Go Rocket Car Rental Kelantan. All Rights Reserved."
     },
     "developed_by": {
         bm: "Dibangunkan oleh",
@@ -280,8 +280,8 @@ const translations = {
         "en": "Check Availability (Limited Slots!)"
     },
     "footer_copyright": {
-        "bm": "© 2025 Go Rocket Car Rental. Hak Cipta Terpelihara.",
-        "en": "© 2025 Go Rocket Car Rental. All Rights Reserved."
+        "bm": "© 2026 Go Rocket Car Rental. Hak Cipta Terpelihara.",
+        "en": "© 2026 Go Rocket Car Rental. All Rights Reserved."
     },
     "footer_tagline": {
         "bm": "\"Sampai Airport, Terus Pandu.\" <br>Kami menyediakan pengalaman sewa kereta VVIP yang bersih, wangi, dan pantas sejak 2013.",

@@ -3439,6 +3439,25 @@ footer .contact-list .label,
     padding: 25px !important;
   }
 
+  /* --- Android Glitch Fixes (Fleet) --- */
+  .fleet-card {
+    transform: translate3d(0, 0, 0) !important;
+    /* Force Hardware Acceleration */
+    backface-visibility: hidden !important;
+    perspective: 1000px !important;
+    min-height: auto !important;
+    /* Let it grow naturally */
+    height: auto !important;
+    overflow: visible !important;
+    /* Fix: Don't clip shadow/content */
+    background: white;
+    /* Prevent transparency bugs */
+    margin-bottom: 30px !important;
+    /* Extra spacing for shadow */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    /* Enforce Shadow */
+  }
+
   .fleet-img {
     height: 180px !important;
     width: 100%;

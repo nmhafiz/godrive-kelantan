@@ -731,10 +731,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Auto Drift Logic
             function drift() {
                 if (!isPaused) {
-                    // Drift Right
-                    container.scrollLeft += 0.5;
+                    // Drift Right (iOS Fix: 0.5 is often ignored, use 1)
+                    container.scrollLeft += 1;
 
-                    // Reset if end reached (Simple loop)
+                    // Reset if end reached (Seamless Loop)
+                    // Check if within 2px of end to account for sub-pixel variances
                     if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 1)) {
                         container.scrollLeft = 0;
                     }
