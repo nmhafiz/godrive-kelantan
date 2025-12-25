@@ -3604,6 +3604,12 @@ footer .contact-list .label,
   /* Remove Card Style from Contact Items */
   .footer-content .contact-list li,
   .footer-col .contact-list li {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -3631,35 +3637,58 @@ footer .contact-list .label,
     border-radius: 20px;
   }
 
-  .footer-content .contact-list .ph,
-  .footer-col .contact-list .ph {
-    background: transparent !important;
-    font-size: 2.8rem !important;
-    /* Even Bigger Icon */
-    padding: 0 !important;
-    margin-bottom: 15px !important;
-    color: var(--accent-cyan);
-  }
 
-  /* Bigger text for readability + Center */
+
+  /* Reset Inner Div */
   .contact-list div {
     text-align: center !important;
-    width: 100%;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
+  /* Reset Label */
+  .contact-list .label {
+    display: block !important;
+    margin-bottom: 5px !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Reset Icon - Zen "Spirit Bubble" Style */
+  .footer-content .contact-list .ph,
+  .footer-col .contact-list .ph {
+    background: rgba(0, 240, 255, 0.1) !important;
+    /* Soft Cyan Glow */
+    border-radius: 50% !important;
+    width: 70px !important;
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 2.2rem !important;
+    /* Balanced Size */
+    padding: 0 !important;
+    margin: 0 0 15px 0 !important;
+    color: var(--accent-cyan);
+    align-self: center !important;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+    /* Subtle Glow */
+  }
+
+  /* Reset Link/Phone */
   .contact-list a {
     font-size: 1.3rem !important;
-    /* Larger for easy tap */
     font-weight: 700 !important;
-    display: block;
-    /* Ensure it takes full width/center */
-  }
-
-  .contact-list .label {
-    font-size: 1rem !important;
-    margin-bottom: 8px !important;
-    opacity: 0.8;
-    display: block;
+    display: inline-block !important;
+    /* Fix: Shrink to fit text */
+    width: auto !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    text-align: center !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+    text-decoration: none !important;
   }
 
   /* Developer Credit Stack */
