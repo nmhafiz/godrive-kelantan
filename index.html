@@ -146,13 +146,32 @@
 
     <!-- Mobile Navigation Menu (Overlay - Outside Header) -->
     <nav class="mobile-nav" id="mobileMenu">
-        <button id="navClose" class="nav-close-btn" aria-label="Close menu">
-            <i class="ph ph-x"></i>
-        </button>
-        <a href="#usp" class="nav-link" data-i18n="nav_usp">Kelebihan</a>
-        <a href="#fleet" class="nav-link" data-i18n="nav_fleet">Senarai Kereta</a>
-        <a href="#how-to" class="nav-link" data-i18n="nav_howto">Cara Tempah</a>
-        <a href="#contact" class="nav-link btn-primary" data-i18n="nav_contact">Hubungi Kami</a>
+        <div class="mobile-nav-header">
+            <span class="mobile-nav-logo">GO ROCKET</span>
+            <button id="navClose" class="nav-close-btn" aria-label="Close menu">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+
+        <div class="mobile-nav-links">
+            <a href="#usp" class="nav-link" data-i18n="nav_usp">Kelebihan</a>
+            <a href="#fleet" class="nav-link" data-i18n="nav_fleet">Senarai Kereta</a>
+            <a href="#how-to" class="nav-link" data-i18n="nav_howto">Cara Tempah</a>
+            <a href="#contact" class="nav-link btn-primary" data-i18n="nav_contact">Hubungi Kami</a>
+        </div>
+
+        <!-- Mobile Controls (Moved Inside) -->
+        <div class="mobile-nav-controls">
+            <div class="lang-toggle-container mobile-lang">
+                <button class="lang-btn active" data-lang="bm">BM</button>
+                <span class="divider">|</span>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <button id="mobileMusicToggle" class="icon-btn mobile-music" aria-label="Toggle background music">
+                <i id="mobileMusicIcon" class="ph ph-speaker-slash"></i>
+                <span class="music-label">Muzik Latar</span>
+            </button>
+        </div>
     </nav>
 
 
@@ -347,8 +366,18 @@
             <p class="section-subtitle text-center" data-i18n="fleet_desc">Daripada bajet jimat minyak hingga gaya VIP,
                 semua ada.</p>
 
+            <!-- Static Fleet Nav (The Anchor) -->
+            <div class="fleet-nav-static-container">
+                <div class="fleet-nav-static">
+                    <button class="fleet-tab active" data-target="cat_compact">Compact</button>
+                    <button class="fleet-tab" data-target="cat_sedan">Sedan</button>
+                    <button class="fleet-tab" data-target="cat_mpv">MPV</button>
+                    <button class="fleet-tab" data-target="cat_van">Van</button>
+                </div>
+            </div>
+
             <!-- Category: Compact Car -->
-            <div class="fleet-category">
+            <div class="fleet-category" id="cat_compact">
                 <h3 data-i18n="cat_compact">Compact Car</h3>
                 <div class="grid-3">
                     <!-- Perodua Axia -->
@@ -402,7 +431,7 @@
             </div>
 
             <!-- Category: Sedan -->
-            <div class="fleet-category">
+            <div class="fleet-category" id="cat_sedan">
                 <h3 class="scroll-reveal" data-i18n="cat_sedan">Sedan</h3>
                 <div class="grid-3">
                     <!-- Proton Saga -->
@@ -486,7 +515,7 @@
             </div>
 
             <!-- Category: MPV -->
-            <div class="fleet-category">
+            <div class="fleet-category" id="cat_mpv">
                 <h3 class="scroll-reveal" data-i18n="cat_mpv">MPV (Keluarga & VIP)</h3>
                 <div class="grid-3">
                     <!-- Perodua Alza -->
@@ -568,7 +597,7 @@
             </div>
 
             <!-- Category: Van -->
-            <div class="fleet-category">
+            <div class="fleet-category" id="cat_van">
                 <h3 class="scroll-reveal" data-i18n="cat_van">Van (Rombongan)</h3>
                 <div class="grid-3">
                     <!-- Toyota Hiace Lama -->
@@ -796,22 +825,22 @@
             <h2 class="section-title scroll-reveal" data-i18n="howto_title">Cara Tempah (Mudah & Pantas)</h2>
             <div class="steps-container">
                 <div class="step-item scroll-reveal">
-                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="ph ph-car-profile"></i></div>
                     <h4 data-i18n="step_1_title">Pilih Kereta</h4>
                     <p data-i18n="step_1_desc">Pilih model ikut keselesaan dan bajet anda.</p>
                 </div>
                 <div class="step-item scroll-reveal delay-100">
-                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="ph ph-whatsapp-logo"></i></div>
                     <h4 data-i18n="step_2_title">WhatsApp Admin</h4>
                     <p data-i18n="step_2_desc">Share tarikh & masa flight. Kami check kekosongan segera.</p>
                 </div>
                 <div class="step-item scroll-reveal delay-200">
-                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="ph ph-lock-key"></i></div>
                     <h4 data-i18n="step_3_title">Confirm Booking</h4>
                     <p data-i18n="step_3_desc">Lock kereta anda dengan deposit mudah.</p>
                 </div>
                 <div class="step-item scroll-reveal delay-300">
-                    <div class="step-number">4</div>
+                    <div class="step-icon"><i class="ph ph-steering-wheel"></i></div>
                     <h4 data-i18n="step_4_title">Terus Pandu</h4>
                     <p data-i18n="step_4_desc">Sampai Airport, staf kami serah kunci. Selamat jalan!</p>
                 </div>
@@ -869,13 +898,17 @@
 
                 <h3 style="margin-top: 20px;" data-i18n="contact_owner">Hubungi Direct Owner</h3>
                 <ul class="contact-list">
-                    <li><i class="ph ph-user"></i> <strong>Utama (Izham):</strong> <a
-                            href="tel:60199274317">019-9274317</a>
+                    <li><i class="ph ph-user"></i> <strong>Utama (Izham):</strong> <a href="tel:60199274317"
+                            style="margin-left: auto;">019-9274317</a>
                     </li>
-                    <li><i class="ph ph-user"></i> <strong>Admin 2:</strong> <a href="tel:60167508833">016-7508833</a>
+                    <li><i class="ph ph-user"></i> <strong>Admin 2:</strong> <a href="tel:60167508833"
+                            style="margin-left: auto;">016-7508833</a>
                     </li>
-                    <li data-i18n="loc_label"><i class="ph ph-map-pin"></i> <strong>Lokasi:</strong> Kota Bharu &
-                        Airport KBR</li>
+                    <li><i class="ph ph-map-pin"></i> <strong>Lokasi:</strong>
+                        <span
+                            style="margin-left: auto; font-weight: 700; color: var(--primary-color); text-align: right;">Kota
+                            Bharu & Airport KBR</span>
+                    </li>
                 </ul>
             </div>
             <div class="about-map scroll-reveal delay-100">
@@ -1021,6 +1054,16 @@
         <i class="ph ph-whatsapp-logo"></i>
         <span class="wa-tooltip">Chat dengan kami!</span>
     </a>
+
+    <!-- Floating Fleet Navigation (Moved to Root) -->
+    <div class="fleet-nav-container">
+        <div class="fleet-nav">
+            <button class="fleet-tab active" data-target="cat_compact">Compact</button>
+            <button class="fleet-tab" data-target="cat_sedan">Sedan</button>
+            <button class="fleet-tab" data-target="cat_mpv">MPV</button>
+            <button class="fleet-tab" data-target="cat_van">Van</button>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="assets/translations.js?v=2.998"></script>

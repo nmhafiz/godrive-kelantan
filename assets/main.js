@@ -85,34 +85,201 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => revealObserver.observe(el));
 
 
-    // --- 3. Background Music Toggle ---
-    const musicIcon = document.getElementById('musicIcon');
-    const musicToggleBtn = document.getElementById('musicToggle');
+    // --- 3. Background Music Toggle (Unified Desktop & Mobile) ---
+    const musicToggleBtns = document.querySelectorAll('#musicToggle, #mobileMusicToggle');
     const bgMusic = document.getElementById('bgMusic');
+    // Create an audio element if not present in HTML (referenced by ID but usually created in JS or HTML)
+    // Assuming audio tag exists or we create it.
 
     let isPlaying = false;
 
-    if (musicToggleBtn && bgMusic) {
+    // Helper to update all icons
+    function updateMusicIcons(playing) {
+        document.querySelectorAll('.ph-speaker-slash, .ph-speaker-high').forEach(icon => {
+            if (playing) {
+                icon.classList.remove('ph-speaker-slash');
+                icon.classList.add('ph-speaker-high');
+            } else {
+                icon.classList.remove('ph-speaker-high');
+                icon.classList.add('ph-speaker-slash');
+            }
+        });
+
+        // Update Mobile Label
+        const mobileLabel = document.querySelector('.music-label');
+        if (mobileLabel) mobileLabel.textContent = playing ? "Tutup Muzik" : "Muzik Latar";
+    }
+
+    if (bgMusic && musicToggleBtns.length > 0) {
         bgMusic.volume = 0.3;
 
-        musicToggleBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicIcon.classList.remove('ph-speaker-high');
-                musicIcon.classList.add('ph-speaker-slash');
-                musicToggleBtn.setAttribute('aria-label', 'Play background music');
-                isPlaying = false;
-            } else {
-                bgMusic.play().then(() => {
-                    musicIcon.classList.remove('ph-speaker-slash');
-                    musicIcon.classList.add('ph-speaker-high');
-                    musicToggleBtn.setAttribute('aria-label', 'Pause background music');
-                    isPlaying = true;
-                }).catch(err => {
-                    console.log("Audio play failed:", err);
-                    alert("Sila klik di mana-mana pada halaman dahulu, kemudian cuba lagi.");
+        musicToggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isPlaying) {
+                    bgMusic.pause();
+                    updateMusicIcons(false);
+                    isPlaying = false;
+                } else {
+                    bgMusic.play().then(() => {
+                        updateMusicIcons(true);
+                        isPlaying = true;
+                    }).catch(err => {
+                        console.log("Audio play failed:", err);
+                        alert("Sila klik di mana-mana pada halaman dahulu, kemudian cuba lagi.");
+                    });
+                }
+            });
+        });
+    }
+
+    // --- 3.1 Fleet Navigation Logic (Floating Pill) ---
+    const fleetTabs = document.querySelectorAll('.fleet-tab');
+    const fleetSections = document.querySelectorAll('.fleet-category');
+    const fleetNavContainer = document.querySelector('.fleet-nav-container');
+
+    if (fleetTabs.length > 0 && fleetNavContainer) {
+        // 1. Initial State: Hidden
+        fleetNavContainer.classList.add('hidden-pill');
+
+        // 2. Click to Scroll & Set Active
+        fleetTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Immediate visual update
+                fleetTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const targetId = tab.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+
+                if (targetSection) {
+                    const offset = 100; // Adjust for centered view
+                    const targetPosition = targetSection.getBoundingClientRect().top + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 3. Floating Pill Visibility Logic (Hybrid Strict)
+        // Logic: ONLY show if we have scrolled PAST the static nav.
+        // HIDE if we are above it (Hero/Intro) OR if we see the static nav.
+
+        const staticNav = document.querySelector('.fleet-nav-static-container');
+
+        if (staticNav) {
+            // A. Observer handles the "Is it on screen?" part
+            const pillObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        fleetNavContainer.classList.add('hidden-pill'); // Seeing static, so hide floating
+                    } else {
+                        // It's off screen, but are we ABOVE it or BELOW it?
+                        const rect = staticNav.getBoundingClientRect();
+
+                        // If static nav is off-screen to the TOP (negative top), we are deep in fleet -> SHOW
+                        // If static nav is off-screen to the BOTTOM (positive top), we are above it -> HIDE
+                        if (rect.top < 0) {
+                            fleetNavContainer.classList.remove('hidden-pill');
+                        } else {
+                            fleetNavContainer.classList.add('hidden-pill');
+                        }
+                    }
                 });
+            }, {
+                rootMargin: "-20px 0px 0px 0px" // Trigger just as it leaves top
+            });
+
+            pillObserver.observe(staticNav);
+
+            // B. Scroll Backup (Double Safety)
+            // Sometimes fast scrolling triggers observer late.
+            window.addEventListener('scroll', () => {
+                const staticTop = staticNav.offsetTop;
+                if (window.scrollY < staticTop) {
+                    fleetNavContainer.classList.add('hidden-pill');
+                }
+            }, { passive: true });
+
+            // C. Portfolio Intersection (Bottom Boundary)
+            const portfolioSection = document.getElementById('portfolio');
+            if (portfolioSection) {
+                const portfolioObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            fleetNavContainer.classList.add('hidden-pill'); // Hit bottom boundary
+                        } else {
+                            // Logic: If we are not intersecting, where is the portfolio?
+                            // If rect.top > 0, it means Portfolio is BELOW us (we scrolled up).
+
+                            if (entry.boundingClientRect.top > 0) {
+                                // Check if we are safely below the static nav (Active Zone)
+                                const staticRect = staticNav.getBoundingClientRect();
+                                if (staticRect.top < 0) {
+                                    fleetNavContainer.classList.remove('hidden-pill'); // Bring it back!
+                                }
+                            }
+                        }
+                    });
+                }, {
+                    rootMargin: "100px 0px 0px 0px" // Trigger slightly early
+                });
+                portfolioObserver.observe(portfolioSection);
             }
+        } else {
+            fleetNavContainer.classList.remove('hidden-pill');
+        }
+
+        // 4. Scroll Spy (Intersection Observer Implementation)
+        // This is more accurate than scroll events. We define a "Line" near the top.
+        // Logic: Whichever section crosses the line "-120px" (just below pill) is active.
+
+        const spyOption = {
+            root: null,
+            // "Active Zone" is a slit near the top of the screen specifically calculated for this layout.
+            // -110px top: Offsets the header + pill.
+            // -70% bottom: We ignore the bottom part of screen. We only care when it enters the TOP zone.
+            rootMargin: "-110px 0px -70% 0px",
+            threshold: 0
+        };
+
+        const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+
+                    // Update Floating Tabs
+                    fleetTabs.forEach(tab => {
+                        tab.classList.remove('active');
+                        if (tab.getAttribute('data-target') === currentId) {
+                            tab.classList.add('active');
+                            // Auto-scroll pill container
+                            const container = document.querySelector('.fleet-nav');
+                            if (container) {
+                                const tabLeft = tab.offsetLeft;
+                                const containerWidth = container.offsetWidth;
+                                const scrollPos = tabLeft - (containerWidth / 2) + (tab.offsetWidth / 2);
+                                container.scrollTo({ left: scrollPos, behavior: 'smooth' });
+                            }
+                        }
+                    });
+
+                    // Update Static Tabs
+                    const staticTabs = document.querySelectorAll('.fleet-nav-static .fleet-tab');
+                    staticTabs.forEach(tab => {
+                        tab.classList.remove('active');
+                        if (tab.getAttribute('data-target') === currentId) {
+                            tab.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, spyOption);
+
+        fleetSections.forEach(section => {
+            spyObserver.observe(section);
         });
     }
 
@@ -435,6 +602,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // --- 5. USP Section Auto-Scroll (Simple Horizontal) ---
+        const uspContainer = document.querySelector('#services .grid-2');
+        if (uspContainer) {
+            let uspInterval;
+
+            const startUspScroll = () => {
+                if (uspInterval) clearInterval(uspInterval);
+                uspInterval = setInterval(() => {
+                    // Check if we are at the end
+                    // tolerance of 10px
+                    if (uspContainer.scrollLeft + uspContainer.clientWidth >= uspContainer.scrollWidth - 10) {
+                        uspContainer.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        // Scroll one card width approx (280px card + 20px gap = 300px)
+                        uspContainer.scrollBy({ left: 300, behavior: 'smooth' });
+                    }
+                }, 3000); // 3 seconds delay
+            };
+
+            const stopUspScroll = () => {
+                if (uspInterval) clearInterval(uspInterval);
+            };
+
+            // Start
+            startUspScroll();
+
+            // Pause on interaction
+            uspContainer.addEventListener('mouseenter', stopUspScroll);
+            uspContainer.addEventListener('mouseleave', startUspScroll);
+            uspContainer.addEventListener('touchstart', stopUspScroll, { passive: true });
+            uspContainer.addEventListener('touchend', () => {
+                setTimeout(startUspScroll, 2000); // Resume after 2s
+            }, { passive: true });
+        }
+
         // Start auto-scroll on page load
         startAutoScroll();
     }
@@ -509,6 +711,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         scrollActiveCards.forEach(card => scrollActiveObserver.observe(card));
+    }
+
+    // --- 13. Auto-Scroll for Mobile Lists (Zen Flow) ---
+    // Targets: USP Grid, Portfolio Grid (on mobile only)
+    if (window.innerWidth <= 768) {
+        const scrollContainers = document.querySelectorAll('.grid-3, .grid-2');
+
+        scrollContainers.forEach(container => {
+            let isPaused = false;
+            let driftId;
+
+            // User Interaction = PAUSE
+            container.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+            container.addEventListener('touchend', () => {
+                setTimeout(() => { isPaused = false; }, 3000);
+            }, { passive: true });
+
+            // Auto Drift Logic
+            function drift() {
+                if (!isPaused) {
+                    // Drift Right
+                    container.scrollLeft += 0.5;
+
+                    // Reset if end reached (Simple loop)
+                    if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 1)) {
+                        container.scrollLeft = 0;
+                    }
+                }
+                driftId = requestAnimationFrame(drift);
+            }
+
+            // Only drift USP section for now (Safe)
+            if (container.closest('#usp')) {
+                drift();
+            }
+        });
     }
 
 });
