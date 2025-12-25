@@ -2,7 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. Mobile Menu Toggle ---
     // --- 1. Mobile Menu Toggle (Refactored v3.11) ---
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -88,8 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3. Background Music Toggle (Unified Desktop & Mobile) ---
     const musicToggleBtns = document.querySelectorAll('#musicToggle, #mobileMusicToggle');
     const bgMusic = document.getElementById('bgMusic');
-    // Create an audio element if not present in HTML (referenced by ID but usually created in JS or HTML)
-    // Assuming audio tag exists or we create it.
 
     let isPlaying = false;
 
@@ -164,9 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 3. Floating Pill Visibility Logic (Hybrid Strict)
-        // Logic: ONLY show if we have scrolled PAST the static nav.
-        // HIDE if we are above it (Hero/Intro) OR if we see the static nav.
-
         const staticNav = document.querySelector('.fleet-nav-static-container');
 
         if (staticNav) {
@@ -195,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pillObserver.observe(staticNav);
 
             // B. Scroll Backup (Double Safety)
-            // Sometimes fast scrolling triggers observer late.
             window.addEventListener('scroll', () => {
                 const staticTop = staticNav.offsetTop;
                 if (window.scrollY < staticTop) {
@@ -213,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else {
                             // Logic: If we are not intersecting, where is the portfolio?
                             // If rect.top > 0, it means Portfolio is BELOW us (we scrolled up).
-
                             if (entry.boundingClientRect.top > 0) {
                                 // Check if we are safely below the static nav (Active Zone)
                                 const staticRect = staticNav.getBoundingClientRect();
@@ -233,14 +225,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 4. Scroll Spy (Intersection Observer Implementation)
-        // This is more accurate than scroll events. We define a "Line" near the top.
-        // Logic: Whichever section crosses the line "-120px" (just below pill) is active.
-
         const spyOption = {
             root: null,
-            // "Active Zone" is a slit near the top of the screen specifically calculated for this layout.
-            // -110px top: Offsets the header + pill.
-            // -70% bottom: We ignore the bottom part of screen. We only care when it enters the TOP zone.
             rootMargin: "-110px 0px -70% 0px",
             threshold: 0
         };
@@ -286,14 +272,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 4. Pixel & Tracking Stubs ---
     window.trackViewContent = (source = 'page') => {
         console.log(`[Tracking] ViewContent fired. Source: ${source}`);
-        // if (typeof fbq === 'function') fbq('track', 'ViewContent', { content_name: source });
-        // if (typeof ttq === 'object') ttq.track('ViewContent', { content_name: source });
     };
 
     window.trackContact = (source = 'cta', method = 'whatsapp') => {
         console.log(`[Tracking] Contact fired. Method: ${method}, Source: ${source}`);
-        // if (typeof fbq === 'function') fbq('track', 'Contact', { content_name: method });
-        // if (typeof ttq === 'object') ttq.track('ClickButton', { content_name: method });
     };
 
     // --- 5. Event Listeners for Tracking ---
@@ -320,17 +302,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let ticking = false;
 
         window.addEventListener('scroll', () => {
-            // Optimization: Mobile check removed (User requested parallax back)
-            // if (window.innerWidth <= 768) return; 
-
             lastScrollY = window.scrollY;
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const scrolled = lastScrollY;
                     if (scrolled < heroSection.offsetHeight) {
-                        // Use translate3d for hardware acceleration
-                        // Optimization: Use slightly lower speed factor on mobile if needed, but 0.5 is standard.
-                        // We will keep 0.5 as it's efficient with will-change.
                         heroBg.style.transform = `translate3d(0, ${scrolled * 0.5}px, 0)`;
                     }
                     ticking = false;
@@ -342,7 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- 7. Typewriter Effect ---
-    // Defined globally so it can be accessed
     let typeTimeout = null;
     let typeIndex = 0;
     let charIndex = 0;
@@ -359,12 +334,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!targetEl) return;
 
         const words = typeWords[currentLang];
-        // Ensure index is valid for new language
         if (typeIndex >= words.length) typeIndex = 0;
 
         const currentWord = words[typeIndex];
-
-        // Security check
         if (!currentWord) {
             typeIndex = 0;
             return;
@@ -392,13 +364,11 @@ document.addEventListener('DOMContentLoaded', () => {
         typeTimeout = setTimeout(typeWriterLoop, typeSpeed);
     }
 
-    // Start initial typing
     if (document.querySelector('.typewriter')) {
         typeWriterLoop();
     }
 
     // --- 8. 3D Tilt Effect for Cards ---
-    // Optimization: Only initialize on desktop to save mobile resources
     if (window.innerWidth > 768) {
         const cards = document.querySelectorAll('.fleet-card');
         cards.forEach(card => {
@@ -423,13 +393,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const langBtns = document.querySelectorAll('.lang-btn');
     const translatableElements = document.querySelectorAll('[data-i18n]');
 
-    // Function to set language
     function setLanguage(lang) {
-        // Update Global State
         currentLang = lang;
         localStorage.setItem('preferredLang', lang);
 
-        // 1. Update Buttons
         langBtns.forEach(btn => {
             if (btn.getAttribute('data-lang') === lang) {
                 btn.classList.add('active');
@@ -438,7 +405,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 2. Update Content
         translatableElements.forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (typeof translations !== 'undefined' && translations[key] && translations[key][lang]) {
@@ -446,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 3. Restart Typewriter
         clearTimeout(typeTimeout);
         charIndex = 0;
         isDeleting = false;
@@ -454,11 +419,9 @@ document.addEventListener('DOMContentLoaded', () => {
             typeWriterLoop();
         }, 50);
 
-        // 4. Update HTML lang
         document.documentElement.lang = lang === 'bm' ? 'ms' : 'en';
     }
 
-    // Event Listeners for language buttons
     langBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
@@ -466,12 +429,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initialize Language
     const savedLang = localStorage.getItem('preferredLang') || 'bm';
     if (typeof translations !== 'undefined') {
         setLanguage(savedLang);
-    } else {
-        console.warn('Translations object not found');
     }
 
     // --- 9. VVIP Carousel Logic ---
@@ -482,22 +442,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const carouselContainer = document.querySelector('.vvip-carousel-container');
 
     if (vvipCards.length > 0) {
-        let currentCarouselIndex = 3; // Start with Lazada (center card) active
+        let currentCarouselIndex = 3;
         let autoScrollInterval = null;
-        const AUTO_SCROLL_DELAY = 4000; // 4 seconds
+        const AUTO_SCROLL_DELAY = 4000;
 
         function updateCarousel(newIndex) {
-            // Wrap around logic
             if (newIndex < 0) newIndex = vvipCards.length - 1;
             if (newIndex >= vvipCards.length) newIndex = 0;
 
             currentCarouselIndex = newIndex;
 
-            // Calculate prev and next indices with wrap
             const prevIndex = (currentCarouselIndex - 1 + vvipCards.length) % vvipCards.length;
             const nextIndex = (currentCarouselIndex + 1) % vvipCards.length;
 
-            // Update cards - show only active, prev, and next
             vvipCards.forEach((card, i) => {
                 card.classList.remove('active', 'prev-card', 'next-card');
 
@@ -510,15 +467,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Update dots
             carouselDots.forEach((dot, i) => {
                 dot.classList.toggle('active', i === currentCarouselIndex);
             });
         }
 
-        // Auto-scroll function
         function startAutoScroll() {
-            stopAutoScroll(); // Clear any existing interval
+            stopAutoScroll();
             autoScrollInterval = setInterval(() => {
                 updateCarousel(currentCarouselIndex + 1);
             }, AUTO_SCROLL_DELAY);
@@ -531,46 +486,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Pause on hover
         if (carouselContainer) {
             carouselContainer.addEventListener('mouseenter', stopAutoScroll);
             carouselContainer.addEventListener('mouseleave', startAutoScroll);
         }
 
-        // Navigation button handlers
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
                 updateCarousel(currentCarouselIndex - 1);
-                startAutoScroll(); // Reset timer after manual navigation
+                startAutoScroll();
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
                 updateCarousel(currentCarouselIndex + 1);
-                startAutoScroll(); // Reset timer after manual navigation
+                startAutoScroll();
             });
         }
 
-        // Click on card to navigate
         vvipCards.forEach((card, i) => {
             card.addEventListener('click', () => {
                 if (i !== currentCarouselIndex) {
                     updateCarousel(i);
-                    startAutoScroll(); // Reset timer after manual navigation
+                    startAutoScroll();
                 }
             });
         });
 
-        // Dot click handlers
         carouselDots.forEach((dot, i) => {
             dot.addEventListener('click', () => {
                 updateCarousel(i);
-                startAutoScroll(); // Reset timer after manual navigation
+                startAutoScroll();
             });
         });
 
-        // Touch/Swipe support for mobile
         let touchStartX = 0;
         let touchEndX = 0;
         const carouselElement = document.querySelector('.vvip-carousel');
@@ -591,10 +541,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (Math.abs(diff) > swipeThreshold) {
                     if (diff > 0) {
-                        // Swipe left - next
                         updateCarousel(currentCarouselIndex + 1);
                     } else {
-                        // Swipe right - prev
                         updateCarousel(currentCarouselIndex - 1);
                     }
                     startAutoScroll();
@@ -602,78 +550,49 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- 5. USP Section Auto-Scroll (Seamless Infinite Loop) ---
+        // --- 5. USP Section Auto-Scroll (Robust CSS Marquee) ---
         // Target specifically the "Kenapa Pilih Go Rocket" section
-        const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2'); // Handle potential class variation
+        const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
         if (uspContainer) {
 
-            // 1. Measure layout *before* cloning to get exact reset point
-            // We need to account for the gap visually
-            const style = window.getComputedStyle(uspContainer);
-            const gap = parseFloat(style.gap) || 20; // Default 20px if fail
+            // 1. Create a "Track" wrapper for CSS animation
+            const track = document.createElement('div');
+            track.className = 'usp-marquee-track';
 
-            let singleSetWidth = 0;
-            if (uspContainer.children.length > 0) {
-                const cardWidth = uspContainer.children[0].offsetWidth;
-                const originalCount = uspContainer.children.length;
-                // Calculate exact width of the original set (Cards + Gaps)
-                singleSetWidth = (cardWidth + gap) * originalCount;
-            }
+            // 2. Capture original items
+            const originalItems = Array.from(uspContainer.children);
 
-            // 2. Clone content multiple times for seamless loop (Buffer)
-            // Cloning 4 times ensures we never see empty space even on wide screens
-            const originalContent = Array.from(uspContainer.children);
+            // 3. Populate Track with CLONES (buffer)
+            // We create 4 duplicate sets [Set][Set][Set][Set]
+            // CSS moves from 0 to -50% (scrolling past first 2 sets).
             for (let i = 0; i < 4; i++) {
-                originalContent.forEach(child => {
-                    const clone = child.cloneNode(true);
-                    clone.setAttribute('aria-hidden', 'true'); // Accessibility
-                    uspContainer.appendChild(clone);
+                originalItems.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    if (i > 0) clone.setAttribute('aria-hidden', 'true');
+                    track.appendChild(clone);
                 });
             }
 
-            // 3. Continuous Scroll Logic
-            let scrollPos = 0;
-            let isPaused = false;
-            let animationId;
+            // 4. Inject Track
+            uspContainer.innerHTML = '';
+            uspContainer.appendChild(track);
 
-            const animateScroll = () => {
-                if (!isPaused) {
-                    scrollPos += 1; // Speed: 1px per frame (Very Smooth)
-
-                    // Reset Logic: When we have scrolled past the entire first set
-                    // We use the PRE-CALCULATED width.
-                    // Fallback to scrollWidth/2 if measurement failed (e.g. hidden on load)
-                    const resetPoint = singleSetWidth > 0 ? singleSetWidth : (uspContainer.scrollWidth / 2);
-
-                    if (scrollPos >= resetPoint) {
-                        scrollPos = 0;
-                    }
-
-                    uspContainer.scrollLeft = scrollPos;
-                }
-                animationId = requestAnimationFrame(animateScroll);
-            };
-
-            // Start Animation
-            animationId = requestAnimationFrame(animateScroll);
-
-            // 3. Pause / Resume Handlers
-            const pause = () => { isPaused = true; };
-            const resume = () => { isPaused = false; };
+            // 5. Pause Interaction
+            const pause = () => { track.style.animationPlayState = 'paused'; };
+            const resume = () => { track.style.animationPlayState = 'running'; };
 
             uspContainer.addEventListener('mouseenter', pause);
             uspContainer.addEventListener('mouseleave', resume);
             uspContainer.addEventListener('touchstart', pause, { passive: true });
             uspContainer.addEventListener('touchend', () => {
-                setTimeout(resume, 2000); // Resume after 2s
+                setTimeout(resume, 2000);
             }, { passive: true });
         }
 
-        // Start auto-scroll on page load
         startAutoScroll();
     }
 
-    // --- 10. Navbar Shrink on Scroll (OPTIMIZED with rAF throttle) ---
+    // --- 10. Navbar Shrink on Scroll ---
     const navbar = document.querySelector('.navbar');
 
     if (navbar) {
@@ -703,7 +622,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const icon = btn.querySelector('i');
 
             if (video.muted) {
-                // Unmute this video, mute all others
                 document.querySelectorAll('.video-player').forEach(v => {
                     v.muted = true;
                 });
@@ -716,7 +634,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.add('unmuted');
                 icon.className = 'ph ph-speaker-high';
             } else {
-                // Mute this video
                 video.muted = true;
                 btn.classList.remove('unmuted');
                 icon.className = 'ph ph-speaker-x';
@@ -725,7 +642,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 12. Scroll-Triggered Active States (Mobile) ---
-    // Use Intersection Observer to add 'scroll-active' class when cards are in viewport
     if (window.innerWidth <= 768) {
         const scrollActiveCards = document.querySelectorAll('.fleet-card, .usp-card, .step-item, .info-block');
 
@@ -738,71 +654,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, {
-            threshold: 0.5, // Trigger when 50% visible
-            rootMargin: "-10% 0px -10% 0px" // Slightly offset from center
+            threshold: 0.5,
+            rootMargin: "-10% 0px -10% 0px"
         });
 
         scrollActiveCards.forEach(card => scrollActiveObserver.observe(card));
-    }
-
-    // --- 13. Auto-Scroll for Mobile Lists (Zen Flow) ---
-    // Targets: USP Grid, Portfolio Grid (on mobile only)
-    if (window.innerWidth <= 768) {
-        const scrollContainers = document.querySelectorAll('.grid-3, .grid-2');
-
-        scrollContainers.forEach(container => {
-            let isPaused = false;
-            let driftId;
-
-            // User Interaction = PAUSE
-            container.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
-            container.addEventListener('touchend', () => {
-                setTimeout(() => { isPaused = false; }, 3000);
-            }, { passive: true });
-
-            // Auto Drift Logic
-            function drift() {
-                if (!isPaused) {
-                    // Drift Right (iOS Fix: 0.5 is often ignored, use 1)
-                    container.scrollLeft += 1;
-
-                    // Reset if end reached (Seamless Loop)
-                    // Check if within 2px of end to account for sub-pixel variances
-                    if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 1)) {
-                        container.scrollLeft = 0;
-                    }
-                }
-                driftId = requestAnimationFrame(drift);
-            }
-
-            // Only drift USP section for now (Safe)
-            if (container.closest('#usp')) {
-                drift();
-            }
-        });
     }
 
 
     // --- 14. Mobile Floating CTA Logic (Contextual Switch) ---
     const mobileActionBar = document.querySelector('.mobile-action-bar');
     const floatingWhatsApp = document.querySelector('.floating-whatsapp');
-    const heroCtaTarget = document.querySelector('.hero'); // Fixed: Use class selector
+    const heroCtaTarget = document.querySelector('.hero');
 
     if (mobileActionBar && floatingWhatsApp && heroCtaTarget) {
         window.addEventListener('scroll', () => {
-            if (window.innerWidth > 768) return; // Mobile only check
+            if (window.innerWidth > 768) return;
 
             const heroBottom = heroCtaTarget.getBoundingClientRect().bottom;
-            const threshold = 100; // Trigger slightly before hero ends completely
+            const threshold = 100;
 
-            // If Hero is out of view (scrolled past), Show Bar, Hide WA Button
             if (heroBottom < threshold) {
                 if (!mobileActionBar.classList.contains('visible')) {
                     mobileActionBar.classList.add('visible');
                     floatingWhatsApp.classList.add('hidden');
                 }
             } else {
-                // In Hero View -> Show WA Button, Hide Bar
                 if (mobileActionBar.classList.contains('visible')) {
                     mobileActionBar.classList.remove('visible');
                     floatingWhatsApp.classList.remove('hidden');
