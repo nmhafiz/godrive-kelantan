@@ -4753,42 +4753,54 @@ section[id="how-to"]>*,
   background: var(--primary-color);
   color: white;
 }
-/* --- USP Infinite Marquee (CSS Driven) --- */
-.usp-marquee-track {
-    display: flex;
-    gap: 20px;
-    width: max-content;
-    animation: marquee 40s linear infinite;
-    will-change: transform;
-}
 
+/* --- USP Zen Scroll (Native + Snap) --- */
 #usp .grid-3,
 #usp .grid-2 {
-    display: block !important; /* Override grid/flex container */
-    overflow: hidden !important;
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    width: 100%;
+  display: flex !important;
+  overflow-x: auto !important;
+  /* Enable manual scroll */
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  /* Premium snap feel */
+  -webkit-overflow-scrolling: touch;
+  /* iOS momentum */
+  gap: 20px;
+  padding-bottom: 20px;
+  /* Space for shadow */
+  width: 100%;
+  /* Hide Scrollbar */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE */
 }
 
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+#usp .grid-3::-webkit-scrollbar,
+#usp .grid-2::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
 }
 
-/* --- USP Marquee Item Safety (Mobile) --- */
-.usp-marquee-track > * {
-    flex: 0 0 auto !important; /* Prevent shrinking */
-    width: 85vw !important; /* Mobile width */
-    max-width: 350px !important;
-    opacity: 1 !important; /* Force visible */
-    transform: none !important; /* Reset scroll-reveal transform */
-    margin-right: 20px !important;
+/* Ensure items are rigid */
+#usp .grid-3>*,
+#usp .grid-2>* {
+  flex: 0 0 auto !important;
+  width: 85vw !important;
+  /* Mobile width */
+  max-width: 350px !important;
+  scroll-snap-align: center;
+  /* Snap to center */
+  opacity: 1 !important;
+  /* Force visible */
+  transform: none !important;
 }
 
 @media (min-width: 769px) {
-    .usp-marquee-track > * {
-        width: auto !important; /* Let content dictate width on desktop */
-        min-width: 300px;
-    }
+
+  #usp .grid-3>*,
+  #usp .grid-2>* {
+    width: 300px !important;
+    /* Desktop width */
+  }
 }
