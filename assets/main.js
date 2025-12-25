@@ -550,16 +550,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- 5. USP Section Auto-Scroll (Mobile Only) ---
+        // --- 5. USP Section Auto-Scroll (Mobile Only - Hybrid Snap v2) ---
         if (window.innerWidth <= 768) {
             const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
             if (uspContainer) {
 
-                // FORCE: Enable auto scrolling behavior explicitly (overwrite CSS smooth scroll)
-                uspContainer.style.scrollBehavior = 'auto'; // CRITICAL Fix for JS drift
+                // 1. Initial State: Disable Snap to allow Drift
+                uspContainer.style.scrollBehavior = 'auto';
+                uspContainer.style.scrollSnapType = 'none'; // DISABLE SNAP initially
 
-                // 1. Super Buffer Strategy
                 const originalItems = Array.from(uspContainer.children);
+
+                // Clean styles
                 originalItems.forEach(item => {
                     item.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
                     item.style.opacity = '1';
@@ -578,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
-                // 2. Optimized RequestAnimationFrame Drift
+                // 2. Drift Engine
                 let driftId;
                 let isPaused = false;
 
@@ -586,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!isPaused) {
                         uspContainer.scrollLeft += 1;
 
-                        // Reset when end reached
                         if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
                             uspContainer.scrollLeft = 0;
                         }
@@ -594,21 +595,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     driftId = requestAnimationFrame(driftEngine);
                 }
 
-                // 3. User Interaction Handling
+                // 3. Smart Interaction (Toggle Snap)
+
+                // On Touch: Enable Snap (Manual Feel) & Pause Drift
                 uspContainer.addEventListener('touchstart', () => {
                     isPaused = true;
-                    // Note: We don't stop the animation frame, just the increment
+                    uspContainer.style.scrollSnapType = 'x mandatory'; // ENABLE SNAP
+                    uspContainer.style.scrollBehavior = 'smooth';
                 }, { passive: true });
 
+                // On Touch End: Wait, then Disable Snap & Resume Drift
                 uspContainer.addEventListener('touchend', () => {
-                    setTimeout(() => { isPaused = false; }, 3000); // 3s pause after touch
+                    setTimeout(() => {
+                        isPaused = false;
+                        uspContainer.style.scrollSnapType = 'none'; // DISABLE SNAP AGAIN
+                        uspContainer.style.scrollBehavior = 'auto'; // Back to linear drift
+                    }, 3000);
                 }, { passive: true });
 
-                // Start Engine
+                // Start
                 driftEngine();
             }
         }
-        // DESKTOP: Do NOTHING. No clones, no JS.
     }
 
     // --- 10. Navbar Shrink on Scroll ---
