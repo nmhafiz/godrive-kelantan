@@ -550,69 +550,70 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- 5. USP Section Auto-Scroll (Native + Drift Hybrid) ---
-        // Target specifically the "Kenapa Pilih Go Rocket" section
-        const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
-        if (uspContainer) {
+        // --- 5. USP Section Auto-Scroll (Mobile Only) ---
+        // CRITICAL CHECK: ONLY EXECUTE IF MOBILE
+        if (window.innerWidth <= 768) {
+            const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2');
+            if (uspContainer) {
 
-            // 1. Super Buffer Strategy (Manual + Auto Hybrid)
-            // We clone content 10 times to create a massive buffer
-            // This allows users to manual scroll freely without hitting edges soon.
-            // When auto-scrolling hits end (very rare), we reset.
+                // 1. Super Buffer Strategy (Manual + Auto Hybrid)
+                // We clone content 10 times to create a massive buffer
+                // This allows users to manual scroll freely without hitting edges soon.
+                // When auto-scrolling hits end (very rare), we reset.
 
-            const originalItems = Array.from(uspContainer.children);
+                const originalItems = Array.from(uspContainer.children);
 
-            // Remove 'scroll-reveal' to ensure visibility
-            originalItems.forEach(item => {
-                item.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
-                item.style.opacity = '1';
-                item.style.transform = 'none';
-            });
-
-            // Clone 10 times (Safe Buffer)
-            for (let i = 0; i < 10; i++) {
+                // Remove 'scroll-reveal' to ensure visibility
                 originalItems.forEach(item => {
-                    const clone = item.cloneNode(true);
-                    // Ensure clones are clean
-                    clone.classList.remove('scroll-reveal');
-                    clone.style.opacity = '1';
-                    clone.style.transform = 'none';
-                    if (i > 0) clone.setAttribute('aria-hidden', 'true');
-                    uspContainer.appendChild(clone);
+                    item.classList.remove('scroll-reveal', 'delay-100', 'delay-200', 'delay-300');
+                    item.style.opacity = '1';
+                    item.style.transform = 'none';
                 });
-            }
 
-            // 2. Gentle Auto Drift
-            let driftInterval;
-            let isPaused = false;
+                // Clone 10 times (Safe Buffer)
+                for (let i = 0; i < 10; i++) {
+                    originalItems.forEach(item => {
+                        const clone = item.cloneNode(true);
+                        // Ensure clones are clean
+                        clone.classList.remove('scroll-reveal');
+                        clone.style.opacity = '1';
+                        clone.style.transform = 'none';
+                        clone.setAttribute('aria-hidden', 'true'); // Only original is semantic
+                        uspContainer.appendChild(clone);
+                    });
+                }
 
-            function startDrift() {
-                if (driftInterval) clearInterval(driftInterval);
-                driftInterval = setInterval(() => {
-                    if (!isPaused) {
-                        uspContainer.scrollLeft += 1; // 1px/tick 
+                // 2. Gentle Auto Drift
+                let driftInterval;
+                let isPaused = false;
 
-                        // Rare Reset: If pixel perfection fails after 10000px, 
-                        // we just bounce back to 0 silently if user isn't holding it.
-                        // With 10x buffer, this is unlikely to be noticed.
-                        if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
-                            uspContainer.scrollLeft = 0;
+                function startDrift() {
+                    if (driftInterval) clearInterval(driftInterval);
+                    driftInterval = setInterval(() => {
+                        if (!isPaused) {
+                            uspContainer.scrollLeft += 1; // 1px/tick 
+
+                            // Rare Reset: If pixel perfection fails after 10000px, 
+                            // we just bounce back to 0 silently if user isn't holding it.
+                            if (uspContainer.scrollLeft >= (uspContainer.scrollWidth - uspContainer.clientWidth - 5)) {
+                                uspContainer.scrollLeft = 0;
+                            }
                         }
-                    }
-                }, 30); // 30ms = ~33fps (Gentle)
+                    }, 30); // 30ms = ~33fps (Gentle)
+                }
+
+                // 3. Manual Override
+                uspContainer.addEventListener('touchstart', () => {
+                    isPaused = true;
+                }, { passive: true });
+
+                uspContainer.addEventListener('touchend', () => {
+                    setTimeout(() => { isPaused = false; }, 3000); // Wait 3s before resuming
+                }, { passive: true });
+
+                startDrift();
             }
-
-            // 3. Manual Override (The Key Requirement)
-            uspContainer.addEventListener('touchstart', () => {
-                isPaused = true;
-            }, { passive: true });
-
-            uspContainer.addEventListener('touchend', () => {
-                setTimeout(() => { isPaused = false; }, 3000); // Wait 3s before resuming
-            }, { passive: true });
-
-            startDrift();
-        }
+        } // End Mobile Check
 
         startAutoScroll();
     }
