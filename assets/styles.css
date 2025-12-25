@@ -4804,26 +4804,32 @@ section[id="how-to"]>*,
     /* Desktop width */
   }
 }
+
 /* --- USP Standard Grid (Desktop) --- */
 @media (min-width: 769px) {
-    #usp .grid-3 {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 30px !important;
-        overflow: visible !important;
-        width: 100% !important;
-    }
 
-    #usp .grid-3 > * {
-        width: auto !important;
-        max-width: none !important;
-        flex: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-    }
-    
-    /* Hide any clones if JS accidentally created them before resize */
-    #usp .grid-3 > *[aria-hidden="true"] {
-        display: none !important;
-    }
+  #usp .grid-3,
+  #portfolio .grid-3 {
+    /* Added Video Container */
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 30px !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
+  #usp .grid-3>*,
+  #portfolio .grid-3>* {
+    width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Hide any clones if JS accidentally created them before resize */
+  #usp .grid-3>*[aria-hidden="true"],
+  #portfolio .grid-3>*[aria-hidden="true"] {
+    display: none !important;
+  }
 }
