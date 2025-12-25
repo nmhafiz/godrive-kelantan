@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 }, {
-                    rootMargin: "100px 0px 0px 0px" // Trigger slightly early
+                    rootMargin: "-50px 0px 0px 0px" // Trigger LATER (when Portfolio is actually visible)
                 });
                 portfolioObserver.observe(portfolioSection);
             }
@@ -602,38 +602,53 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- 5. USP Section Auto-Scroll (Simple Horizontal) ---
-        const uspContainer = document.querySelector('#services .grid-2');
+        // --- 5. USP Section Auto-Scroll (Seamless Infinite Loop) ---
+        // Target specifically the "Kenapa Pilih Go Rocket" section
+        const uspContainer = document.querySelector('#usp .grid-3, #usp .grid-2'); // Handle potential class variation
         if (uspContainer) {
-            let uspInterval;
 
-            const startUspScroll = () => {
-                if (uspInterval) clearInterval(uspInterval);
-                uspInterval = setInterval(() => {
-                    // Check if we are at the end
-                    // tolerance of 10px
-                    if (uspContainer.scrollLeft + uspContainer.clientWidth >= uspContainer.scrollWidth - 10) {
-                        uspContainer.scrollTo({ left: 0, behavior: 'smooth' });
-                    } else {
-                        // Scroll one card width approx (280px card + 20px gap = 300px)
-                        uspContainer.scrollBy({ left: 300, behavior: 'smooth' });
+            // 1. Clone content for seamless loop
+            // We clone the children once so we can scroll past the end and jump back to 0 visually.
+            const originalContent = Array.from(uspContainer.children);
+            originalContent.forEach(child => {
+                const clone = child.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true'); // Accessibility
+                uspContainer.appendChild(clone);
+            });
+
+            // 2. Continuous Scroll Logic
+            let scrollPos = 0;
+            let isPaused = false;
+            let animationId;
+
+            const animateScroll = () => {
+                if (!isPaused) {
+                    scrollPos += 1; // Speed: 1px per frame (Very Smooth)
+
+                    // If we have scrolled past the FIRST SET of items, reset to 0
+                    // We assume the cloned set is identical width.
+                    // scrollWidth is roughly 2x visible width now.
+                    if (scrollPos >= uspContainer.scrollWidth / 2) {
+                        scrollPos = 0;
                     }
-                }, 3000); // 3 seconds delay
+
+                    uspContainer.scrollLeft = scrollPos;
+                }
+                animationId = requestAnimationFrame(animateScroll);
             };
 
-            const stopUspScroll = () => {
-                if (uspInterval) clearInterval(uspInterval);
-            };
+            // Start Animation
+            animationId = requestAnimationFrame(animateScroll);
 
-            // Start
-            startUspScroll();
+            // 3. Pause / Resume Handlers
+            const pause = () => { isPaused = true; };
+            const resume = () => { isPaused = false; };
 
-            // Pause on interaction
-            uspContainer.addEventListener('mouseenter', stopUspScroll);
-            uspContainer.addEventListener('mouseleave', startUspScroll);
-            uspContainer.addEventListener('touchstart', stopUspScroll, { passive: true });
+            uspContainer.addEventListener('mouseenter', pause);
+            uspContainer.addEventListener('mouseleave', resume);
+            uspContainer.addEventListener('touchstart', pause, { passive: true });
             uspContainer.addEventListener('touchend', () => {
-                setTimeout(startUspScroll, 2000); // Resume after 2s
+                setTimeout(resume, 2000); // Resume after 2s
             }, { passive: true });
         }
 
