@@ -619,10 +619,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     driftId = requestAnimationFrame(driftEngine);
                 }
 
-                // 3. Smart Interaction (Toggle Snap)
+                // 3. Smart Interaction (Toggle Snap & User Control)
+                let resumeTimer;
 
-                // On Touch: Enable Snap (Manual Feel) & Pause Drift
+                // On Touch: Enable Snap (Manual Feel) & Pause Drift & Clear Timer
                 container.addEventListener('touchstart', () => {
+                    clearTimeout(resumeTimer); // STOP any pending resume!
                     isPaused = true;
                     container.style.scrollSnapType = 'x mandatory'; // ENABLE SNAP
                     container.style.scrollBehavior = 'smooth';
@@ -630,9 +632,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // On Touch End: Wait, then Disable Snap & Resume Drift
                 container.addEventListener('touchend', () => {
-                    setTimeout(() => {
+                    clearTimeout(resumeTimer); // Reset timer just in case
+                    resumeTimer = setTimeout(() => {
+                        // Only resume if still not paused (double check) and video off
                         isPaused = false;
-                        // Only disable snap if we are NOT watching a video
                         if (!isVideoWatching) {
                             container.style.scrollSnapType = 'none'; // DISABLE SNAP AGAIN
                             container.style.scrollBehavior = 'auto'; // Back to linear drift
